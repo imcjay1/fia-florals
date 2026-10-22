@@ -1,6 +1,6 @@
 # Fia Florals — website
 
-Bespoke florist website for Fia Florals (Sophia, Manchester). Built with [Astro](https://astro.build), hosted on Vercel, payments through Stripe Payment Links, workshop tickets through Ticket Tailor.
+Bespoke florist website for Fia Florals (Sophia, Manchester). Built with [Astro](https://astro.build), hosted on Netlify (free plan allows commercial sites), payments through Stripe Payment Links, workshop tickets through Ticket Tailor.
 
 ## Pages
 
@@ -28,8 +28,8 @@ npm run build    # outputs to dist/
 
 ## Go live (one-off setup)
 
-1. **Vercel** — vercel.com → Add New → Project → import this GitHub repo. Framework: Astro (auto-detected). Deploy.
-2. **Domain** — Vercel → Project → Settings → Domains → add Sophia's domain and follow the DNS instructions. Then add an environment variable `SITE_URL` = `https://www.her-domain.co.uk` and redeploy (this fixes canonical links and the sitemap).
+1. **Netlify** — app.netlify.com → Add new site → Import from GitHub → this repo. Build settings come from `netlify.toml`. Deploy.
+2. **Domain** — Netlify → Domain management → add Sophia's domain and follow the DNS instructions. Canonical links and the sitemap follow the primary domain automatically on the next deploy.
 3. **Forms** — go to web3forms.com, enter `fiafloralsbysophia@gmail.com`, copy the access key into `forms.web3formsKey` in `src/data/site.ts`. Until then every form opens the visitor's email app with their answers filled in.
 4. **Stripe** — in Sophia's Stripe account create one Payment Link per option and paste each into `src/data/products.ts` (see below). Until a link is added, that option's button says "Order on WhatsApp" with the choice pre-filled.
 5. **Google** — verify her Google Business Profile, add the website, then paste the "Ask for reviews" link into `googleReviewUrl` in `src/data/site.ts`. Submit `https://her-domain/sitemap-index.xml` in Google Search Console.
@@ -60,7 +60,7 @@ All content Sophia is likely to change lives in `src/data/`:
 | `products.ts` | Products, sizes, Stripe links, price labels, photos |
 | `content.ts` | Workshop dates, wedding dates already booked, reviews, FAQs |
 
-Commit to `main` and Vercel redeploys automatically in about a minute. Past workshop dates hide themselves.
+Commit to `main` and Netlify redeploys automatically in about a minute. Past workshop dates hide themselves.
 
 ## Before launch — check with Sophia
 

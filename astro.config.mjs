@@ -2,9 +2,9 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
-// The live domain. Set SITE_URL in Vercel (Project → Settings → Environment Variables)
-// once the custom domain is connected, e.g. https://www.fiaflorals.co.uk
-const site = process.env.SITE_URL || 'https://fia-florals.vercel.app';
+// The live domain. Netlify provides URL automatically (the primary domain, including a custom
+// domain once connected). SITE_URL can override it, e.g. https://www.fiaflorals.co.uk
+const site = process.env.SITE_URL || process.env.URL || 'https://fia-florals.netlify.app';
 
 export default defineConfig({
   site,
