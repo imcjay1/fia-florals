@@ -1,0 +1,25 @@
+---
+import Base from '../layouts/Base.astro';
+import { faqs } from '../data/content';
+import { business } from '../data/site';
+const schema = [{
+  '@context': 'https://schema.org', '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+}];
+---
+<Base
+  title="Delivery, collection & FAQs"
+  description="How delivery and collection work at Fia Florals, Manchester, plus answers to common questions about bouquets, subscriptions, weddings and workshops."
+  schema={schema}
+>
+  <section class="wrap page-hero narrow">
+    <nav aria-label="Breadcrumb" class="breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span aria-current="page">Delivery &amp; FAQs</span></nav>
+    <div class="stack" style="margin-bottom:40px">
+      <span class="eyebrow">Good to know</span>
+      <h1 class="disp h2" style="font-size:clamp(42px,5vw,72px)">Delivery &amp; FAQs</h1>
+      <p class="lead">Can't see your question? Call or WhatsApp {business.phone}, or <a href="/contact">send a message</a>.</p>
+    </div>
+    <div class="faq">{faqs.map((f) => <details><summary>{f.q}</summary><p>{f.a}</p></details>)}</div>
+  </section>
+</Base>
+<style>.narrow { max-width: 920px; }</style>

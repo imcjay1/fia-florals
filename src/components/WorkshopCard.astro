@@ -1,0 +1,36 @@
+---
+import { Image } from 'astro:assets';
+import type { workshops } from '../data/content';
+type W = (typeof workshops)[number];
+interface Props { w: W }
+const { w } = Astro.props;
+const d = new Date(w.date);
+const month = d.toLocaleString('en-GB', { month: 'short', timeZone: 'Europe/London' }).toUpperCase();
+const day = d.toLocaleString('en-GB', { day: 'numeric', timeZone: 'Europe/London' });
+const weekday = d.toLocaleString('en-GB', { weekday: 'long', timeZone: 'Europe/London' });
+const start = d.toLocaleString('en-GB', { hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'Europe/London' }).replace(' ', '').replace(':00', '');
+const [eh, em] = w.endTime.split(':').map(Number);
+const end = `${eh % 12 || 12}${em ? ':' + String(em).padStart(2, '0') : ''}${eh >= 12 ? 'pm' : 'am'}`;
+---
+<article class="wcard" data-until={w.date.slice(0, 10)} data-workshop>
+  <div class="media"><Image src={w.image} alt={w.imageAlt} widths={[480, 800]} sizes="(max-width: 700px) 100vw, 360px" class="cover" /></div>
+  <div class="info">
+    <div class="when">
+      <div class="date"><span>{month}</span><b class="disp">{day}</b></div>
+      <div><span class="eyebrow">Next date</span><div class="small">{weekday} · {start.replace(/am|pm/, '')}–{end}</div></div>
+    </div>
+    <h3 class="disp h3">{w.name}</h3>
+    <p class="body small-body">{w.venue}, {w.town}. {w.blurb}</p>
+    <div class="row"><a class="btn btn-primary btn-sm" href={w.tickets} rel="noopener">Book — {w.price}</a></div>
+  </div>
+</article>
+<style>
+  .wcard { background: var(--white); border-radius: 28px; overflow: hidden; box-shadow: 0 1px 0 rgba(59, 33, 36, 0.06), 0 20px 50px rgba(59, 33, 36, 0.08); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); }
+  .media { min-height: 280px; }
+  .info { padding: 30px; display: flex; flex-direction: column; gap: 14px; }
+  .when { display: flex; gap: 14px; align-items: center; }
+  .date { background: var(--brick); color: var(--petal); border-radius: 16px; width: 64px; padding: 10px 0; text-align: center; flex-shrink: 0; }
+  .date span { font-size: 12px; font-weight: 700; letter-spacing: 0.12em; display: block; }
+  .date b { font-size: 30px; line-height: 1; font-weight: 400; display: block; }
+  .small-body { font-size: 15px; }
+</style>

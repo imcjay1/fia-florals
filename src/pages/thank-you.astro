@@ -1,0 +1,13 @@
+---
+import Base from '../layouts/Base.astro';
+import { socials } from '../data/site';
+const ig = socials.find((s) => s.name === 'Instagram')!;
+---
+<Base title="Thank you for your order" description="Thank you for ordering from Fia Florals." noindex>
+  <section class="wrap page-hero" style="text-align:center;display:flex;flex-direction:column;gap:22px;align-items:center;padding-block:120px">
+    <span class="eyebrow">Order received</span>
+    <h1 class="disp h1">Thank you <em>x</em></h1>
+    <p class="lead" style="max-width:560px">Your order is in and your receipt is on its way by email. I'll be in touch if I have any questions about your flowers.</p>
+    <div class="row" style="justify-content:center"><a class="btn btn-primary" href="/">Back to the homepage</a><a class="btn btn-ghost" href={ig.url}>Follow {ig.handle}</a></div>
+  </section>
+</Base>

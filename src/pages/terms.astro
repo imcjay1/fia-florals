@@ -1,0 +1,36 @@
+---
+import Base from '../layouts/Base.astro';
+import { business } from '../data/site';
+---
+<Base title="Terms & conditions" description="Terms for ordering flowers, subscriptions, gift vouchers and workshop tickets from Fia Florals.">
+  <article class="wrap page-hero legal">
+    <h1 class="disp h2">Terms &amp; conditions</h1>
+    <p class="small">These terms apply to orders placed through this website with Fia Florals, run by {business.owner} in {business.city}.</p>
+
+    <h2>Your order</h2>
+    <p>Your order is confirmed when payment is taken and you receive a confirmation email. I'll contact you on the details you give if there's any question about your order.</p>
+
+    <h2>Fresh flowers</h2>
+    <p>Every arrangement is designed to order using the best seasonal flowers available, so it may differ from the photos while keeping to your chosen size, style and colours.</p>
+
+    <h2>Cancellations and refunds</h2>
+    <p>Because flowers are perishable and made to order for a specific date, the 14-day cancellation period under the Consumer Contracts Regulations does not apply to fresh flower orders. If something isn't right with your flowers, please contact me within 24 hours of delivery or collection with a photo and I'll put it right.</p>
+
+    <h2>Subscriptions</h2>
+    <p>Subscriptions are billed automatically at the frequency you choose. To change or cancel, contact me before your next delivery date.</p>
+
+    <h2>Workshops</h2>
+    <p>Workshop tickets are sold through Ticket Tailor and are non-refundable, but can be transferred to a friend — just let me know their name.</p>
+
+    <h2>Gift vouchers</h2>
+    <p>Gift vouchers can be spent on bouquets, subscriptions and workshops, and cannot be exchanged for cash.</p>
+
+    <h2>Contact</h2>
+    <p><a href={`mailto:${business.email}`}>{business.email}</a> · {business.phone}</p>
+  </article>
+</Base>
+<style>
+  .legal { max-width: 820px; display: flex; flex-direction: column; gap: 14px; }
+  .legal h2 { font-size: 20px; margin-top: 18px; }
+  .legal p { color: var(--text); }
+</style>

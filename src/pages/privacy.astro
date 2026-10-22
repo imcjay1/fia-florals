@@ -1,0 +1,42 @@
+---
+import Base from '../layouts/Base.astro';
+import { business } from '../data/site';
+const updated = '22 October 2026';
+---
+<Base title="Privacy policy" description="How Fia Florals collects, uses and protects your personal information.">
+  <article class="wrap page-hero legal">
+    <h1 class="disp h2">Privacy policy</h1>
+    <p class="small">Last updated {updated}</p>
+
+    <h2>Who I am</h2>
+    <p>Fia Florals is a florist run by {business.owner} in {business.city}. I'm responsible for the personal information you share through this website. Contact me at <a href={`mailto:${business.email}`}>{business.email}</a> or {business.phone}.</p>
+
+    <h2>What I collect</h2>
+    <ul>
+      <li><b>Enquiries:</b> your name, contact details and what you tell me in the form, so I can reply.</li>
+      <li><b>Orders:</b> your name, contact details, delivery address, delivery date and card message, so I can make and deliver your flowers. Payments are taken by Stripe — I never see or store your card details.</li>
+      <li><b>Mailing list:</b> your email address, only if you sign up. Every email has an unsubscribe link.</li>
+    </ul>
+
+    <h2>Why I use it</h2>
+    <p>To reply to enquiries and fulfil orders (to perform a contract with you), to keep basic records for tax (legal obligation), and to send the mailing list you asked for (your consent, which you can withdraw at any time).</p>
+
+    <h2>Who I share it with</h2>
+    <p>Only the services that run this website and my business: Stripe (payments), Ticket Tailor (workshop tickets), Web3Forms (delivering form messages to my inbox), my email newsletter provider, and Vercel (website hosting). I never sell your information.</p>
+
+    <h2>How long I keep it</h2>
+    <p>Enquiries for up to 2 years, order records for 6 years for tax purposes, and mailing list details until you unsubscribe.</p>
+
+    <h2>Your rights</h2>
+    <p>You can ask for a copy of your information, ask me to correct or delete it, or object to how it's used — just email me. If you're unhappy with how I've handled your information you can complain to the Information Commissioner's Office at <a href="https://ico.org.uk">ico.org.uk</a>.</p>
+
+    <h2>Cookies</h2>
+    <p>This website doesn't use advertising or tracking cookies. Fonts are served from this website. Stripe and Ticket Tailor may set their own essential cookies when you check out on their pages.</p>
+  </article>
+</Base>
+<style>
+  .legal { max-width: 820px; display: flex; flex-direction: column; gap: 14px; }
+  .legal h2 { font-size: 20px; margin-top: 18px; }
+  .legal p, .legal li { color: var(--text); }
+  .legal ul { padding-left: 20px; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+</style>

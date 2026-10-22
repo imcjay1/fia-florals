@@ -1,0 +1,91 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/brand/logo-plum.png';
+import { announcement, nav } from '../data/site';
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isCurrent = (href: string) => (href === '/' ? path === '/' : path === href || path.startsWith(href + '/'));
+---
+{announcement.show && (
+  <div class="announce" data-until={announcement.until}>
+    <span>{announcement.text}</span>
+    <a href={announcement.href}>{announcement.linkText}</a>
+  </div>
+)}
+<header class="site-header">
+  <div class="wrap bar">
+    <a href="/" class="brand" aria-label="Fia Florals home">
+      <Image src={logo} alt="Fia Florals — flowers & more" width={200} loading="eager" />
+    </a>
+    <nav aria-label="Main" class="desktop-nav">
+      {nav.map((item) => (
+        <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>{item.label}</a>
+      ))}
+    </nav>
+    <div class="actions">
+      <a href="/shop" class="btn btn-primary btn-sm order">Order flowers</a>
+      <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
+      </button>
+    </div>
+  </div>
+  <div id="mobile-menu" class="mobile-menu" hidden>
+    <div class="wrap mm-top">
+      <a href="/" class="brand" aria-label="Fia Florals home"><Image src={logo} alt="" width={160} /></a>
+      <button class="close-btn" type="button" aria-label="Close menu">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
+      </button>
+    </div>
+    <nav aria-label="Mobile" class="wrap mm-nav">
+      <a href="/" class="disp">Home</a>
+      {nav.map((item) => <a href={item.href} class="disp">{item.label}</a>)}
+      <a href="/events-business" class="disp">Events &amp; business</a>
+      <a href="/contact" class="disp">Contact</a>
+      <a href="/shop" class="btn btn-primary">Order flowers</a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .announce { background: var(--plum); color: var(--petal); font-size: 14px; padding: 11px 20px; display: flex; flex-wrap: wrap; gap: 6px 14px; justify-content: center; text-align: center; }
+  .announce a { color: var(--pink-on-plum); font-weight: 600; }
+  .site-header { position: relative; z-index: 20; }
+  .bar { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-block: 16px; }
+  .brand { display: block; line-height: 0; }
+  .brand :global(img) { height: 52px; width: auto; }
+  .desktop-nav { display: flex; gap: 4px 26px; align-items: center; flex-wrap: wrap; }
+  .desktop-nav a { color: var(--plum); text-decoration: none; font-weight: 500; font-size: 15px; padding: 12px 2px; border-bottom: 2px solid transparent; }
+  .desktop-nav a:hover, .desktop-nav a[aria-current='page'] { color: var(--brick); border-bottom-color: currentColor; }
+  .actions { display: flex; align-items: center; gap: 10px; }
+  .menu-btn, .close-btn { display: none; width: 48px; height: 48px; border-radius: 50%; border: 0; background: var(--blush); color: var(--plum); cursor: pointer; align-items: center; justify-content: center; }
+  .mobile-menu { position: fixed; inset: 0; background: var(--petal); z-index: 100; overflow-y: auto; }
+  .mobile-menu[hidden] { display: none; }
+  .mm-top { display: flex; justify-content: space-between; align-items: center; padding-block: 16px; }
+  .mm-top :global(img) { height: 44px; width: auto; }
+  .mm-nav { display: flex; flex-direction: column; gap: 6px; padding-block: 24px 48px; }
+  .mm-nav a.disp { font-size: 34px; color: var(--plum); text-decoration: none; padding: 8px 0; border-bottom: 1px solid #e6d2cc; }
+  .mm-nav .btn { margin-top: 24px; }
+  @media (max-width: 1020px) {
+    .desktop-nav { display: none; }
+    .menu-btn, .close-btn { display: inline-flex; }
+  }
+  @media (max-width: 480px) {
+    .order { display: none; }
+    .brand :global(img) { height: 44px; }
+  }
+</style>
+
+<script>
+  const menu = document.getElementById('mobile-menu')!;
+  const open = document.querySelector<HTMLButtonElement>('.menu-btn')!;
+  const close = menu.querySelector<HTMLButtonElement>('.close-btn')!;
+  const set = (on: boolean) => {
+    menu.hidden = !on;
+    open.setAttribute('aria-expanded', String(on));
+    document.body.style.overflow = on ? 'hidden' : '';
+    (on ? close : open).focus();
+  };
+  open.addEventListener('click', () => set(true));
+  close.addEventListener('click', () => set(false));
+  menu.addEventListener('keydown', (e) => { if (e.key === 'Escape') set(false); });
+  menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => set(false)));
+</script>

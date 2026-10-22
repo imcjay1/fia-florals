@@ -1,0 +1,91 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { business, socials } from '../data/site';
+import ogDefault from '../assets/photos/sophia-bouquet-cream.jpg';
+import { getImage } from 'astro:assets';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: ImageMetadata;
+  /** Extra JSON-LD objects for this page (Product, Event, FAQPage…). */
+  schema?: Record<string, unknown>[];
+  noindex?: boolean;
+}
+
+const { title, description, image = ogDefault, schema = [], noindex = false } = Astro.props;
+const site = Astro.site!;
+const canonical = new URL(Astro.url.pathname.replace(/\/$/, '') || '/', site).href;
+const og = await getImage({ src: image, width: 1200, height: 630, format: 'jpg', fit: 'cover' });
+const ogUrl = new URL(og.src, site).href;
+const fullTitle = title.includes('Fia Florals') ? title : `${title} | Fia Florals`;
+
+// Local business data Google reads for the map pack and knowledge panel.
+const florist = {
+  '@context': 'https://schema.org',
+  '@type': 'Florist',
+  '@id': new URL('/#business', site).href,
+  name: business.name,
+  description: business.description,
+  url: site.href,
+  telephone: business.phoneIntl,
+  email: business.email,
+  image: ogUrl,
+  logo: new URL('/favicon.png', site).href,
+  founder: { '@type': 'Person', name: business.owner },
+  areaServed: { '@type': 'City', name: business.city },
+  address: { '@type': 'PostalAddress', addressLocality: business.city, addressCountry: 'GB' },
+  sameAs: socials.map((s) => s.url),
+};
+const graph = [florist, ...schema];
+---
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <meta name="theme-color" content="#faf3ee" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.png" type="image/png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Fia Florals" />
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <script type="application/ld+json" set:html={JSON.stringify(graph.length === 1 ? graph[0] : graph)} />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    <script>
+      // Hide anything dated in the past (workshops, the announcement bar) even between site rebuilds.
+      const today = new Date().toISOString().slice(0, 10);
+      document.querySelectorAll<HTMLElement>('[data-until]').forEach((el) => {
+        if ((el.dataset.until ?? '9999') < today) el.remove();
+      });
+      document.querySelectorAll<HTMLElement>('[data-empty-when-none]').forEach((wrap) => {
+        const sel = wrap.dataset.emptyWhenNone!;
+        if (!wrap.querySelector(sel)) wrap.querySelectorAll<HTMLElement>('[data-fallback]').forEach((f) => (f.hidden = false));
+      });
+    </script>
+  </body>
+</html>

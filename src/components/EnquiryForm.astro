@@ -1,0 +1,78 @@
+---
+import { forms } from '../data/site';
+
+export type Field = {
+  name: string;
+  label: string;
+  type?: 'text' | 'email' | 'tel' | 'date' | 'number' | 'textarea' | 'select';
+  options?: string[];
+  required?: boolean;
+  full?: boolean;
+  placeholder?: string;
+  value?: string;
+  hint?: string;
+};
+
+interface Props {
+  id: string;
+  subject: string;
+  fields?: Field[];
+  submit?: string;
+  success?: string;
+  white?: boolean;
+}
+
+const contact: Field[] = [
+  { name: 'name', label: 'Your name', required: true },
+  { name: 'email', label: 'Email', type: 'email', required: true },
+  { name: 'phone', label: 'Phone', type: 'tel' },
+];
+
+const { id, subject, fields = [], submit = 'Send enquiry', success, white = false } = Astro.props;
+const all = [...contact, ...fields];
+---
+<form
+  id={id}
+  class:list={['form', { 'on-petal': white }]}
+  action={forms.endpoint}
+  method="POST"
+  data-enquiry
+  data-key={forms.web3formsKey || undefined}
+  data-success={success}
+>
+  <input type="hidden" name="access_key" value={forms.web3formsKey} />
+  <input type="hidden" name="subject" value={subject} />
+  <input type="hidden" name="from_name" value="Fia Florals website" />
+  <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+  {all.map((f) => (
+    <div class:list={['field', { full: f.full || f.type === 'textarea' }]}>
+      <label for={`${id}-${f.name}`}>
+        {f.label}{!f.required && f.hint && <span class="hint"> ({f.hint})</span>}
+      </label>
+      {f.type === 'textarea' ? (
+        <textarea id={`${id}-${f.name}`} name={f.name} class="textarea" rows="4" required={f.required} placeholder={f.placeholder} />
+      ) : f.type === 'select' ? (
+        <select id={`${id}-${f.name}`} name={f.name} class="select" required={f.required}>
+          {f.options?.map((o) => <option selected={o === f.value}>{o}</option>)}
+        </select>
+      ) : (
+        <input
+          id={`${id}-${f.name}`}
+          name={f.name}
+          type={f.type ?? 'text'}
+          class="input"
+          required={f.required}
+          placeholder={f.placeholder}
+          value={f.value}
+          autocomplete={f.name === 'name' ? 'name' : f.name === 'email' ? 'email' : f.name === 'phone' ? 'tel' : undefined}
+        />
+      )}
+    </div>
+  ))}
+  <button type="submit" class="btn btn-dark">{submit}</button>
+  <p class="form-note">Your details are only used to reply to your enquiry. See the <a href="/privacy">privacy policy</a>.</p>
+</form>
+
+<script>
+  import '../scripts/forms';
+</script>

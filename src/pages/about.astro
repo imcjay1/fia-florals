@@ -1,0 +1,73 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Reviews from '../components/Reviews.astro';
+import { socials } from '../data/site';
+import peony from '../assets/photos/sophia-peony.jpg';
+import dahlia from '../assets/photos/sophia-dahlia.jpg';
+import hardy from '../assets/photos/hardy-bouquet.jpg';
+import two from '../assets/photos/two-bouquets.jpg';
+const ig = socials.find((s) => s.name === 'Instagram')!;
+---
+<Base
+  title="About Sophia — the florist behind Fia Florals, Manchester"
+  description="Meet Sophia, the Manchester florist behind Fia Florals — bespoke bouquets, weddings, funerals, events and floristry workshops. And Hardy the cat."
+  image={peony}
+>
+  <section class="wrap page-hero">
+    <nav aria-label="Breadcrumb" class="breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span aria-current="page">About</span></nav>
+    <div class="split">
+      <div class="arch" style="aspect-ratio:4/5;max-height:680px"><Image src={peony} alt="Sophia, owner of Fia Florals, smiling over a peony bouquet" widths={[480, 720, 960]} sizes="(max-width:900px) 100vw, 520px" class="cover" style="object-position:50% 15%" loading="eager" /></div>
+      <div class="stack">
+        <span class="eyebrow">Hello, I'm Sophia</span>
+        <h1 class="disp h1" style="font-size:clamp(44px,5.6vw,80px)">I like to create flowers that are <em>unique.</em></h1>
+        <p class="lead">Fia Florals is my Manchester flower business — bouquets, weddings, funerals, events, and the workshops I love hosting.</p>
+        <p class="lead">At Fia Florals we don't do boring, or basic flowers. Every bunch is designed from scratch, so no two are ever the same — something a little bit different, every time.</p>
+        <p class="lead">Every bouquet is an absolute honour to create, whether it's for a birthday, a new baby, a wedding or a goodbye.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="white section">
+    <div class="wrap split">
+      <div class="stack">
+        <span class="eyebrow">The team</span>
+        <h2 class="disp h2">Meet Hardy.</h2>
+        <p class="lead">The most important member of the Fia Florals team — and he will always pose for a photo.</p>
+        <a class="link-arrow" href={ig.url}>More of Hardy on Instagram {ig.handle} →</a>
+      </div>
+      <div class="pair">
+        <div class="round"><Image src={hardy} alt="Hardy the black and white cat stretched out next to a cream bouquet" widths={[400, 640]} sizes="320px" class="cover" style="object-position:85% 100%" /></div>
+        <div class="rounded" style="aspect-ratio:4/5"><Image src={dahlia} alt="Sophia with a dahlia and hydrangea bouquet" widths={[400, 640]} sizes="320px" class="cover" /></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap section">
+    <div class="split">
+      <div class="rounded" style="aspect-ratio:16/10"><Image src={two} alt="Two pink hydrangea bouquets in Fia Florals wrapping" widths={[480, 800, 1100]} sizes="(max-width:900px) 100vw, 600px" class="cover" /></div>
+      <div class="stack">
+        <h2 class="disp h2" style="font-size:clamp(32px,3.6vw,48px)">What I do</h2>
+        <ul class="what">
+          <li><a href="/shop">Bespoke bouquets and vase arrangements</a></li>
+          <li><a href="/weddings">Wedding flowers</a></li>
+          <li><a href="/funeral-flowers">Funeral flowers</a></li>
+          <li><a href="/events-business">Event and business flowers</a></li>
+          <li><a href="/shop/flower-subscription">Flower subscriptions</a></li>
+          <li><a href="/workshops">Floristry workshops, public and private</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <Reviews />
+</Base>
+<style>
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: center; }
+  .pair .round { aspect-ratio: 1; }
+  .what { list-style: none; padding: 0; margin: 0; border-top: 1px solid #e6d2cc; }
+  .what li { border-bottom: 1px solid #e6d2cc; }
+  .what a { display: block; padding: 16px 0; font-weight: 600; color: var(--plum); text-decoration: none; }
+  .what a:hover { color: var(--brick); }
+  .what a::after { content: ' →'; color: var(--brick); }
+</style>

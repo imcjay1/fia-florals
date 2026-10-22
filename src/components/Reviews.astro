@@ -1,0 +1,23 @@
+---
+import { reviews } from '../data/content';
+import { googleReviewUrl } from '../data/site';
+const tints = ['var(--blush)', 'var(--sage)', 'var(--mint)'];
+---
+<section class="wrap section" aria-labelledby="reviews-title">
+  <h2 id="reviews-title" class="disp h2 title">Kind words</h2>
+  <div class="grid-3">
+    {reviews.map((r, i) => (
+      <figure class="quote" style={`background:${tints[i % tints.length]}`}>
+        <blockquote class="disp">“{r.quote}”</blockquote>
+        <figcaption>{r.name}, via {r.source}</figcaption>
+      </figure>
+    ))}
+  </div>
+  {googleReviewUrl && (
+    <p class="cta"><a class="link-arrow" href={googleReviewUrl} rel="noopener">Had flowers from me? Leave a Google review →</a></p>
+  )}
+</section>
+<style>
+  .title { text-align: center; margin-bottom: 44px; }
+  .cta { text-align: center; margin-top: 32px; }
+</style>

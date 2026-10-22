@@ -1,0 +1,104 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import WorkshopCard from '../components/WorkshopCard.astro';
+import EnquiryForm from '../components/EnquiryForm.astro';
+import { workshops, pastWorkshops, privateWorkshopPhoto } from '../data/content';
+import { socials } from '../data/site';
+import wreath from '../assets/photos/wreath-workshop.jpg';
+
+const ig = socials.find((s) => s.name === 'Instagram')!;
+const schema = workshops.map((w) => ({
+  '@context': 'https://schema.org',
+  '@type': 'Event',
+  name: `${w.name} at ${w.venue}`,
+  description: w.blurb,
+  startDate: `${w.date}:00+00:00`,
+  endDate: `${w.date.slice(0, 10)}T${w.endTime}:00+00:00`,
+  eventStatus: 'https://schema.org/EventScheduled',
+  eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+  location: { '@type': 'Place', name: w.venue, address: { '@type': 'PostalAddress', streetAddress: w.address, addressLocality: w.town, postalCode: w.postcode, addressCountry: 'GB' } },
+  organizer: { '@type': 'Organization', name: 'Fia Florals', url: Astro.site?.href },
+  offers: { '@type': 'Offer', price: w.priceValue, priceCurrency: 'GBP', url: w.tickets, availability: 'https://schema.org/InStock' },
+}));
+---
+<Base
+  title="Floristry workshops Manchester — wreath making, pumpkin & flower classes"
+  description="Hands-on floristry workshops with Fia Florals: Christmas wreath making, pumpkin florals and seasonal bouquets. Public dates and private workshops for hen parties and teams."
+  image={wreath}
+  schema={schema}
+>
+  <section class="wrap page-hero">
+    <nav aria-label="Breadcrumb" class="breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span aria-current="page">Workshops</span></nav>
+    <div class="split" style="align-items:start">
+      <div class="stack">
+        <span class="eyebrow">Floristry workshops</span>
+        <h1 class="disp h1" style="font-size:clamp(46px,6vw,88px)">Come and make <em>something.</em></h1>
+        <p class="lead">Relaxed, hands-on evenings with a drink on arrival and the best seasonal flowers. No experience needed — I'll guide you through every step and you'll take home something you made yourself.</p>
+        <div class="pills"><span class="pill sage">Christmas wreaths</span><span class="pill coral">Pumpkin florals</span><span class="pill mint">Summer bouquets</span><span class="pill">Hen parties</span><span class="pill">Team socials</span></div>
+      </div>
+      <div class="stack" data-empty-when-none="[data-workshop]">
+        <h2 class="eyebrow">Upcoming dates</h2>
+        {workshops.map((w) => <WorkshopCard w={w} />)}
+        <div class="none tint" data-fallback hidden>
+          <h3 class="disp h3">New dates coming soon</h3>
+          <p class="body">Follow <a href={ig.url}>{ig.handle}</a> or join the mailing list at the bottom of this page to hear first.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="white section">
+    <div class="wrap">
+      <h2 class="disp h2" style="margin-bottom:28px">Recent workshops</h2>
+      <div class="grid-4">
+        {pastWorkshops.map((p) => (
+          <div class="past"><h3 class="disp" style="font-size:24px">{p.name}</h3><p class="small">{p.where} · {p.when}</p></div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap section" id="private">
+    <div class="split" style="align-items:start">
+      <div class="stack">
+        <span class="eyebrow">Private workshops</span>
+        <h2 class="disp h2">Your people, <em>your place.</em></h2>
+        <p class="lead">Hen parties, birthdays, team socials and girls' weekends — at your home, your workplace or your venue. Tell me the date and how many of you, and I'll bring everything.</p>
+        <div class="rounded" style="aspect-ratio:4/3"><Image src={privateWorkshopPhoto.src} alt={privateWorkshopPhoto.alt} widths={[480, 800]} sizes="(max-width:900px) 100vw, 560px" class="cover" /></div>
+      </div>
+      <div id="private-form">
+        <EnquiryForm
+          id="private-workshop"
+          subject="Private workshop enquiry"
+          white
+          submit="Send workshop enquiry"
+          fields={[
+            { name: 'occasion', label: 'Occasion', type: 'select', options: ['Hen party', 'Birthday', 'Team social', 'Weekend away', 'Something else'] },
+            { name: 'date', label: 'Preferred date', type: 'date' },
+            { name: 'group_size', label: 'Group size', type: 'number', required: true },
+            { name: 'location', label: 'Where (town or venue)', required: true },
+            { name: 'workshop', label: 'Workshop you fancy', type: 'select', options: ['Seasonal bouquet', 'Christmas wreath', 'Pumpkin florals', "Not sure — suggest one"] },
+            { name: 'message', label: 'Anything else', type: 'textarea' },
+          ]}
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap" style="padding-bottom:var(--section)">
+    <div class="venues tint">
+      <div class="stack" style="gap:10px">
+        <span class="eyebrow">For venues</span>
+        <h2 class="disp" style="font-size:clamp(28px,3vw,38px)">Host a Fia Florals workshop at your bar, café or restaurant.</h2>
+        <p class="body">Workshops have run at Hatters Food Hall in Denton, with 3SIXTY in Newcastle next. Get in touch to host one.</p>
+      </div>
+      <a class="btn btn-dark" href="/contact">Talk to Sophia</a>
+    </div>
+  </section>
+</Base>
+<style>
+  .past { border-top: 2px solid var(--rose); padding-top: 16px; display: flex; flex-direction: column; gap: 6px; }
+  .none { border-radius: 24px; padding: 28px; display: flex; flex-direction: column; gap: 8px; }
+  .venues { border-radius: 32px; padding: clamp(24px, 4vw, 44px); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 24px; }
+</style>

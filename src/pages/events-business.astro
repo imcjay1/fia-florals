@@ -1,0 +1,71 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import EnquiryForm from '../components/EnquiryForm.astro';
+import { businessQuote } from '../data/content';
+import orchid from '../assets/photos/orchid-vase.jpg';
+import wild from '../assets/photos/wild-bouquet.jpg';
+---
+<Base
+  title="Corporate & event flowers Manchester — office, showroom & event florist"
+  description="Weekly flowers for showrooms, offices and receptions, plus event florals and client gifts, from Manchester florist Fia Florals."
+  image={orchid}
+>
+  <section class="wrap page-hero">
+    <nav aria-label="Breadcrumb" class="breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span aria-current="page">Events &amp; business</span></nav>
+    <div class="split">
+      <div class="stack">
+        <span class="eyebrow">Events &amp; business</span>
+        <h1 class="disp h1" style="font-size:clamp(44px,5.6vw,80px)">Flowers that make people <em>stop and look.</em></h1>
+        <p class="lead">Weekly arrangements for showrooms, offices, salons and receptions; florals for launches, parties and celebrations; and thank-you bouquets for your clients.</p>
+        <div class="row"><a class="btn btn-primary" href="#enquire">Get a quote</a></div>
+      </div>
+      <div class="arch" style="aspect-ratio:4/5;max-height:640px"><Image src={orchid} alt="Orchid, anthurium and eucalyptus arrangement in a green glass vase" widths={[480, 720, 960]} sizes="(max-width:900px) 100vw, 520px" class="cover" loading="eager" /></div>
+    </div>
+  </section>
+
+  <section class="white section">
+    <div class="wrap">
+      <div class="grid-3">
+        <div class="tile" style="background:var(--sage)"><h2 class="disp h3">Weekly flowers</h2><p>Fresh arrangements for your showroom, office or reception, swapped on a schedule that suits you.</p></div>
+        <div class="tile" style="background:var(--coral)"><h2 class="disp h3">Event florals</h2><p>Table flowers, installations and statement pieces for launches, parties and celebrations.</p></div>
+        <div class="tile" style="background:var(--mint)"><h2 class="disp h3">Client gifts</h2><p>Thank-you bouquets for customers and staff, delivered with your message.</p></div>
+      </div>
+      <figure class="bq">
+        <blockquote class="disp">“{businessQuote.quote}”</blockquote>
+        <figcaption>{businessQuote.name} — {businessQuote.context}</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="wrap section" id="enquire">
+    <div class="split" style="align-items:start">
+      <div class="stack">
+        <h2 class="disp h2" style="font-size:clamp(32px,3.6vw,48px)">Tell me what you need.</h2>
+        <p class="lead">Share the space or the event, how often and your budget, and I'll come back with ideas and a quote.</p>
+        <div class="rounded" style="aspect-ratio:4/3"><Image src={wild} alt="Sophia holding a wild, garden-style bouquet" widths={[480, 800]} sizes="(max-width:900px) 100vw, 560px" class="cover" /></div>
+      </div>
+      <EnquiryForm
+        id="business"
+        subject="Business / event flowers enquiry"
+        white
+        submit="Request a quote"
+        fields={[
+          { name: 'company', label: 'Business name', required: true },
+          { name: 'need', label: 'What do you need?', type: 'select', options: ['Weekly / regular flowers', 'Event florals', 'Client or staff gifts', 'Something else'] },
+          { name: 'date', label: 'Start or event date', type: 'date' },
+          { name: 'frequency', label: 'How often', type: 'select', options: ['One-off', 'Weekly', 'Fortnightly', 'Monthly'] },
+          { name: 'budget', label: 'Budget', placeholder: '£' },
+          { name: 'message', label: 'Tell me more', type: 'textarea' },
+        ]}
+      />
+    </div>
+  </section>
+</Base>
+<style>
+  .tile { border-radius: 26px; padding: 30px; display: flex; flex-direction: column; gap: 10px; min-height: 200px; }
+  .tile p { font-size: 15px; }
+  .bq { margin: 56px auto 0; max-width: 860px; text-align: center; display: flex; flex-direction: column; gap: 16px; }
+  .bq blockquote { margin: 0; font-size: clamp(22px, 2.4vw, 30px); line-height: 1.35; font-style: italic; }
+  .bq figcaption { font-weight: 600; color: var(--text); }
+</style>

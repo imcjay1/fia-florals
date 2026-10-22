@@ -1,0 +1,221 @@
+---
+import { Image, getImage } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import { products, palettes, type Product } from '../../data/products';
+import { business } from '../../data/site';
+
+export function getStaticPaths() {
+  return products.map((p) => ({ params: { slug: p.slug }, props: { product: p } }));
+}
+
+const { product } = Astro.props as { product: Product };
+const others = products.filter((p) => p.slug !== product.slug).slice(0, 3);
+const first = product.options[0];
+const thumbs = await Promise.all(product.images.map((im) => getImage({ src: im.src, width: 960, format: 'webp' })));
+
+// Structured data so Google can show the product (and its price once set).
+const priced = product.options.filter((o) => parseFloat(o.price.replace(/[^0-9.]/g, '')));
+const schema: Record<string, unknown>[] = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: product.name,
+    description: product.description.join(' '),
+    image: thumbs.map((t) => new URL(t.src, Astro.site).href),
+    brand: { '@type': 'Brand', name: 'Fia Florals' },
+    ...(priced.length
+      ? {
+          offers: {
+            '@type': 'AggregateOffer',
+            priceCurrency: 'GBP',
+            lowPrice: Math.min(...priced.map((o) => parseFloat(o.price.replace(/[^0-9.]/g, '')))),
+            highPrice: Math.max(...priced.map((o) => parseFloat(o.price.replace(/[^0-9.]/g, '')))),
+            offerCount: priced.length,
+            availability: 'https://schema.org/InStock',
+          },
+        }
+      : {}),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/', Astro.site).href },
+      { '@type': 'ListItem', position: 2, name: 'Shop', item: new URL('/shop', Astro.site).href },
+      { '@type': 'ListItem', position: 3, name: product.name, item: new URL(`/shop/${product.slug}`, Astro.site).href },
+    ],
+  },
+];
+---
+<Base title={product.seo.title} description={product.seo.description} image={product.images[0].src} schema={schema}>
+  <div class="wrap page-hero">
+    <nav aria-label="Breadcrumb" class="breadcrumb">
+      <a href="/">Home</a><span aria-hidden="true">/</span><a href="/shop">Shop</a><span aria-hidden="true">/</span><span aria-current="page">{product.name}</span>
+    </nav>
+
+    <div class="product" data-product={product.slug} data-options={JSON.stringify(product.options)} data-name={product.name} data-whatsapp={business.whatsapp}>
+      <!-- Gallery -->
+      <div class="gallery">
+        <div class="main rounded">
+          <img src={thumbs[0].src} alt={product.images[0].alt} width="960" height={Math.round(960 * product.images[0].src.height / product.images[0].src.width)} class="cover" data-main />
+        </div>
+        {product.images.length > 1 && (
+          <div class="thumbs">
+            {product.images.map((im, i) => (
+              <button type="button" class="thumb" aria-label={`Show photo ${i + 1}: ${im.alt}`} aria-pressed={i === 0 ? 'true' : 'false'} data-src={thumbs[i].src} data-alt={im.alt}>
+                <Image src={im.src} alt="" width={200} height={200} class="cover" />
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+
+      <!-- Buy box -->
+      <div class="stack buy">
+        <div class="stack" style="gap:12px">
+          <span class="eyebrow">{product.eyebrow}</span>
+          <h1 class="disp" style="font-size:clamp(42px,5vw,64px);line-height:1">{product.name}</h1>
+          <p class="price" data-price hidden={!first.price}>{first.price}</p>
+          {product.description.map((d) => <p class="lead" style="font-size:17px">{d}</p>)}
+        </div>
+
+        <fieldset>
+          <legend class="legend">{product.primary.legend}</legend>
+          <div class="opt-grid">
+            {product.primary.choices.map((c, i) => (
+              <button type="button" class="opt" data-primary={c.label} aria-pressed={i === 0 ? 'true' : 'false'}>
+                {c.label}{c.note && <small>{c.note}</small>}
+              </button>
+            ))}
+          </div>
+        </fieldset>
+
+        {product.secondary && (
+          <fieldset>
+            <legend class="legend">{product.secondary.legend}</legend>
+            <div class="opt-grid">
+              {product.secondary.choices.map((c, i) => (
+                <button type="button" class="opt" data-secondary={c.label} aria-pressed={i === 0 ? 'true' : 'false'}>{c.label}</button>
+              ))}
+            </div>
+          </fieldset>
+        )}
+
+        {product.showPalette && (
+          <fieldset>
+            <legend class="legend">Colours</legend>
+            <div class="pills">
+              {palettes.map((p, i) => (
+                <button type="button" class="opt swatch-opt" data-palette={p.id} data-label={p.label} aria-pressed={i === 0 ? 'true' : 'false'}>
+                  <span class="swatch" aria-hidden="true" style={`background:linear-gradient(135deg, ${p.a} 50%, ${p.b} 50%)`}></span>{p.label}
+                </button>
+              ))}
+            </div>
+          </fieldset>
+        )}
+
+        <div class="stack" style="gap:12px">
+          <a class="btn btn-primary btn-block" href="#" data-buy>Continue to secure checkout</a>
+          <p class="small center-text" data-buy-note>{product.checkoutNote}</p>
+          <p class="secure" data-secure><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2" /><path d="M8 11V7a4 4 0 0 1 8 0v4" /></svg>Secure checkout with Stripe · Card, Apple Pay &amp; Google Pay</p>
+        </div>
+
+        <div class="facts">
+          <div><b>Designed from scratch</b><span>No two are the same — the photos show my style; yours is made just for you.</span></div>
+          <div><b>Delivery or collection</b><span>Choose at checkout, along with the date you need them. Questions? <a href="/delivery-faqs">Delivery &amp; FAQs</a></span></div>
+          <div><b>Something specific in mind?</b><span>Call or WhatsApp me on <a href={`tel:${business.phoneIntl}`}>{business.phone}</a>.</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="wrap" style="padding-bottom:var(--section)">
+    <h2 class="disp h2" style="font-size:clamp(32px,3.4vw,44px);margin-bottom:28px">You might also love</h2>
+    <div class="grid-3">{others.map((p) => <ProductCard product={p} variant="white" />)}</div>
+  </section>
+</Base>
+
+<style>
+  .product { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr)); gap: clamp(32px, 5vw, 56px); align-items: start; }
+  .gallery { display: flex; flex-direction: column; gap: 14px; position: sticky; top: 24px; }
+  @media (max-width: 960px) { .gallery { position: static; } }
+  .main { aspect-ratio: 1 / 1.05; border-radius: 32px; }
+  .thumbs { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+  .thumb { padding: 0; border: 0; border-radius: 16px; overflow: hidden; cursor: pointer; aspect-ratio: 1; opacity: 0.7; background: var(--blush); }
+  .thumb[aria-pressed='true'] { opacity: 1; box-shadow: 0 0 0 3px var(--brick); }
+  .buy { gap: 28px; }
+  fieldset { border: 0; margin: 0; padding: 0; }
+  .legend { margin-bottom: 12px; padding: 0; }
+  .price { font-size: 26px; font-weight: 600; }
+  .center-text { text-align: center; }
+  .secure { display: flex; gap: 8px; justify-content: center; align-items: center; font-size: 14px; color: var(--text); flex-wrap: wrap; }
+  .facts { border-top: 1px solid #e6d2cc; }
+  .facts div { padding: 18px 0; border-bottom: 1px solid #e6d2cc; display: flex; flex-direction: column; gap: 4px; }
+  .facts span { font-size: 15px; color: var(--text); }
+</style>
+
+<script>
+  type Option = { key: string; price: string; stripe: string };
+  document.querySelectorAll<HTMLElement>('[data-product]').forEach((root) => {
+    const options: Option[] = JSON.parse(root.dataset.options!);
+    const name = root.dataset.name!;
+    const wa = root.dataset.whatsapp!;
+    const buy = root.querySelector<HTMLAnchorElement>('[data-buy]')!;
+    const priceEl = root.querySelector<HTMLElement>('[data-price]')!;
+    const main = root.querySelector<HTMLImageElement>('[data-main]')!;
+    const note = root.querySelector<HTMLElement>('[data-buy-note]')!;
+    const checkoutNote = note.textContent ?? '';
+    const secure = root.querySelector<HTMLElement>('[data-secure]');
+
+    const pick = (sel: string) => root.querySelector<HTMLElement>(`${sel}[aria-pressed="true"]`);
+    const group = (sel: string) => root.querySelectorAll<HTMLButtonElement>(sel);
+
+    const update = () => {
+      const p = pick('[data-primary]')?.dataset.primary ?? '';
+      const s = pick('[data-secondary]')?.dataset.secondary;
+      const pal = pick('[data-palette]');
+      const key = s ? `${p}|${s}` : p;
+      const opt = options.find((o) => o.key === key);
+      priceEl.hidden = !opt?.price;
+      priceEl.textContent = opt?.price ?? '';
+      if (opt?.stripe) {
+        // client_reference_id shows the choices on the payment in Stripe (letters, numbers, - and _ only).
+        const ref = [root.dataset.product, p, s, pal?.dataset.palette].filter(Boolean).join('_').toLowerCase().replace(/[^a-z0-9_-]/g, '-');
+        const url = new URL(opt.stripe);
+        url.searchParams.set('client_reference_id', ref.slice(0, 200));
+        buy.href = url.toString();
+        buy.textContent = 'Continue to secure checkout';
+        buy.removeAttribute('target');
+        note.textContent = checkoutNote;
+        if (secure) secure.hidden = false;
+      } else {
+        const lines = [`Hi Sophia, I'd like to order: ${name}`, `${p}${s ? ' · ' + s : ''}`, pal ? `Colours: ${pal.dataset.label}` : ''].filter(Boolean);
+        buy.href = `${wa}?text=${encodeURIComponent(lines.join('\n'))}`;
+        buy.textContent = 'Order on WhatsApp';
+        buy.target = '_blank';
+        if (secure) secure.hidden = true;
+        note.textContent = "Send me your choice on WhatsApp and I'll confirm the price, date and delivery or collection with you.";
+      }
+    };
+
+    ['[data-primary]', '[data-secondary]', '[data-palette]'].forEach((sel) => {
+      group(sel).forEach((btn) =>
+        btn.addEventListener('click', () => {
+          group(sel).forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+          update();
+        }),
+      );
+    });
+
+    root.querySelectorAll<HTMLButtonElement>('.thumb').forEach((t) =>
+      t.addEventListener('click', () => {
+        main.src = t.dataset.src!;
+        main.alt = t.dataset.alt!;
+        root.querySelectorAll('.thumb').forEach((x) => x.setAttribute('aria-pressed', String(x === t)));
+      }),
+    );
+
+    update();
+  });
+</script>

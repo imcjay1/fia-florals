@@ -1,0 +1,82 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import EnquiryForm from '../components/EnquiryForm.astro';
+import { business } from '../data/site';
+import meadow from '../assets/photos/funeral-meadow.jpg';
+import cream from '../assets/photos/hardy-bouquet.jpg';
+---
+<Base
+  title="Funeral flowers Manchester — tributes, wreaths & sympathy flowers"
+  description="Funeral flowers made with care by Fia Florals, Manchester: sheaves, wreaths, posies, personal tributes and sympathy bouquets. Call Sophia on 07786 671051."
+  image={meadow}
+>
+  <section class="dark">
+    <div class="wrap split hero">
+      <div class="stack" style="padding-block:clamp(48px,7vw,96px)">
+        <nav aria-label="Breadcrumb" class="breadcrumb"><a href="/" style="color:var(--plum-soft)">Home</a><span aria-hidden="true">/</span><span aria-current="page">Funeral flowers</span></nav>
+        <span class="eyebrow">Funeral flowers</span>
+        <h1 class="disp" style="font-size:clamp(42px,5.2vw,72px);line-height:1.04">Made with care, for the person you're remembering.</h1>
+        <p class="lead">Sheaves, wreaths, posies and personal tributes — in their favourite colours, or a style that says something about them. If it's easier to talk it through, just call.</p>
+        <div class="row">
+          <a class="btn btn-cream" href={`tel:${business.phoneIntl}`}>Call Sophia — {business.phone}</a>
+          <a class="btn btn-outline-light" href="#enquire">Send an enquiry</a>
+        </div>
+      </div>
+      <div class="media"><Image src={meadow} alt="Meadow-style funeral tribute with pink dahlia, blue thistle and agapanthus" widths={[480, 800, 1100]} sizes="(max-width:900px) 100vw, 600px" class="cover" loading="eager" /></div>
+    </div>
+  </section>
+
+  <section class="wrap section">
+    <div class="split" style="align-items:start">
+      <div class="stack">
+        <h2 class="disp h2" style="font-size:clamp(32px,3.6vw,48px)">What I can make</h2>
+        <ul class="list">
+          <li><b>Coffin sprays</b><span>A single statement piece for the coffin.</span></li>
+          <li><b>Sheaves and posies</b><span>Simple, natural tributes to lay or carry.</span></li>
+          <li><b>Wreaths</b><span>Classic rings of flowers and foliage.</span></li>
+          <li><b>Personal tributes</b><span>Names, letters and designs that reflect them.</span></li>
+          <li><b>Sympathy bouquets</b><span>Sent to the family's home, with your message.</span></li>
+        </ul>
+        <p class="body">Tell me about the person — favourite flowers, colours, a garden they loved — and I'll design something that feels like them. Let me know where the flowers need to go — the funeral director, the service or the family home.</p>
+      </div>
+      <div id="enquire">
+        <EnquiryForm
+          id="funeral"
+          subject="Funeral flowers enquiry"
+          white
+          submit="Send enquiry"
+          success="Thank you. I'll be in touch as soon as I can. Sophia"
+          fields={[
+            { name: 'service_date', label: 'Date of the service', type: 'date', required: true },
+            { name: 'deliver_to', label: 'Deliver to', type: 'select', options: ['Funeral director', 'Place of service', 'Family home', 'Not sure yet'] },
+            { name: 'director', label: 'Funeral director (if known)' },
+            { name: 'tribute', label: 'Type of tribute', type: 'select', options: ['Not sure — please advise', 'Coffin spray', 'Sheaf or posy', 'Wreath', 'Personal tribute or letters', 'Sympathy bouquet'] },
+            { name: 'budget', label: 'Budget', placeholder: '£' },
+            { name: 'message', label: 'About them — colours, flowers, anything that matters', type: 'textarea' },
+          ]}
+        />
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap" style="padding-bottom:var(--section)">
+    <div class="sym tint">
+      <div class="rounded" style="aspect-ratio:1"><Image src={cream} alt="Soft white and cream bouquet of roses and peonies" widths={[300, 500]} sizes="240px" class="cover" /></div>
+      <div class="stack" style="gap:12px">
+        <h2 class="disp" style="font-size:clamp(26px,2.8vw,34px)">Sending sympathy flowers?</h2>
+        <p class="body">A hand-tied bouquet in soft whites and greens can be ordered online, with your card message and delivery to their door.</p>
+        <a class="link-arrow" href="/shop/hand-tied-bouquet">Order sympathy flowers →</a>
+      </div>
+    </div>
+  </section>
+</Base>
+<style>
+  .hero { gap: 0 56px; }
+  .media { align-self: stretch; min-height: 420px; }
+  .list { list-style: none; padding: 0; margin: 0; border-top: 1px solid #e6d2cc; }
+  .list li { display: flex; flex-direction: column; gap: 2px; padding: 16px 0; border-bottom: 1px solid #e6d2cc; }
+  .list span { color: var(--text); font-size: 15px; }
+  .sym { border-radius: 32px; padding: clamp(24px, 4vw, 40px); display: grid; grid-template-columns: minmax(0, 200px) 1fr; gap: 32px; align-items: center; }
+  @media (max-width: 600px) { .sym { grid-template-columns: 1fr; } }
+</style>

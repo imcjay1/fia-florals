@@ -1,0 +1,35 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import WorkshopCard from '../components/WorkshopCard.astro';
+import { workshops } from '../data/content';
+import wreath from '../assets/photos/wreath-workshop.jpg';
+const festive = workshops.filter((w) => /wreath|christmas|festive/i.test(w.name));
+---
+<Base
+  title="Christmas wreath making workshops — Fia Florals"
+  description="Make your own fresh Christmas wreath with Fia Florals. Festive wreath workshops with a drink on arrival and all materials included, plus private wreath workshops for groups."
+  image={wreath}
+>
+  <section class="wrap page-hero">
+    <nav aria-label="Breadcrumb" class="breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span aria-current="page">Christmas wreaths</span></nav>
+    <div class="split">
+      <div class="stack">
+        <span class="eyebrow">Christmas at Fia Florals</span>
+        <h1 class="disp h1" style="font-size:clamp(44px,5.6vw,84px)">Make your own <em>Christmas wreath.</em></h1>
+        <p class="lead">A full, fragrant evergreen base, winter berries, dried botanicals and velvet ribbon — I'll guide you through every step, and you'll take home a fresh wreath for your front door.</p>
+        <div class="row">
+          <a class="btn btn-primary" href="/workshops">See workshop dates</a>
+          <a class="btn btn-ghost" href="/workshops#private">Book a private wreath workshop</a>
+        </div>
+      </div>
+      <div class="arch" style="aspect-ratio:4/4.4"><Image src={wreath} alt="Two friends holding the fresh Christmas wreaths they made at a Fia Florals workshop" widths={[480, 720, 960]} sizes="(max-width:900px) 100vw, 560px" class="cover" loading="eager" /></div>
+    </div>
+  </section>
+  {festive.length > 0 && (
+    <section class="wrap" style="padding-bottom:var(--section)">
+      <h2 class="disp h2" style="font-size:clamp(30px,3vw,40px);margin-bottom:24px">Upcoming wreath workshops</h2>
+      <div class="stack">{festive.map((w) => <WorkshopCard w={w} />)}</div>
+    </section>
+  )}
+</Base>

@@ -1,0 +1,25 @@
+---
+import { Image } from 'astro:assets';
+import { fromPrice, type Product } from '../data/products';
+interface Props { product: Product; variant?: 'light' | 'dark' | 'white' }
+const { product, variant = 'light' } = Astro.props;
+const price = fromPrice(product);
+const cta = product.kind === 'subscription' ? 'Start a subscription' : product.kind === 'voucher' ? 'Buy a voucher' : 'Choose size & colours';
+---
+<a href={`/shop/${product.slug}`} class:list={['pcard', { 'dark-card': variant === 'dark', 'on-white': variant === 'white' }]}>
+  <div class="media">
+    <Image src={product.images[0].src} alt={product.images[0].alt} widths={[400, 640, 900]} sizes="(max-width: 700px) 100vw, 400px" class="cover" />
+  </div>
+  <div class="info">
+    <div class="title">
+      <h3 class="disp h3">{product.name}</h3>
+      {price && <span class="price">{price}</span>}
+    </div>
+    <p class="body">{product.summary}</p>
+    <span class="cta">{cta}</span>
+  </div>
+</a>
+<style>
+  .price { font-weight: 600; white-space: nowrap; }
+  .dark-card .price { color: var(--pink-on-plum); }
+</style>

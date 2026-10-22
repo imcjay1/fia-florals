@@ -1,0 +1,46 @@
+---
+import Base from '../layouts/Base.astro';
+import EnquiryForm from '../components/EnquiryForm.astro';
+import { business, socials } from '../data/site';
+---
+<Base
+  title="Contact Fia Florals — Manchester florist"
+  description="Get in touch with Sophia at Fia Florals, Manchester. Call or WhatsApp 07786 671051, email fiafloralsbysophia@gmail.com or send an enquiry."
+>
+  <section class="wrap page-hero">
+    <nav aria-label="Breadcrumb" class="breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span aria-current="page">Contact</span></nav>
+    <div class="split" style="align-items:start">
+      <div class="stack">
+        <span class="eyebrow">Say hello</span>
+        <h1 class="disp h1" style="font-size:clamp(44px,5.6vw,80px)">Let's make something <em>beautiful.</em></h1>
+        <p class="lead">Tell me what you're planning and when, and I'll come back to you with ideas.</p>
+        <div class="ways">
+          <a href={`tel:${business.phoneIntl}`} class="way"><span class="eyebrow">Call</span><b>{business.phone}</b></a>
+          <a href={business.whatsapp} class="way"><span class="eyebrow">WhatsApp</span><b>Message me</b></a>
+          <a href={`mailto:${business.email}`} class="way"><span class="eyebrow">Email</span><b>{business.email}</b></a>
+        </div>
+        <div class="row">
+          {socials.map((s) => <a class="btn btn-ghost btn-sm" href={s.url} rel="me noopener" target="_blank">{s.name}</a>)}
+        </div>
+      </div>
+      <EnquiryForm
+        id="contact"
+        subject="Website enquiry"
+        white
+        fields={[
+          { name: 'looking_for', label: "I'm looking for", type: 'select', options: ['Bouquet', 'Wedding flowers', 'Funeral flowers', 'Event flowers', 'Private workshop', 'Business flowers', 'Something else'] },
+          { name: 'date', label: 'Date needed', type: 'date' },
+          { name: 'deliver', label: 'Delivery or collection', type: 'select', options: ['Not sure yet', 'Delivery', 'Collection'] },
+          { name: 'budget', label: 'Budget', placeholder: '£' },
+          { name: 'message', label: 'Tell me more', type: 'textarea', required: true },
+        ]}
+      />
+    </div>
+  </section>
+</Base>
+<style>
+  .ways { display: grid; gap: 12px; }
+  .way { display: flex; flex-direction: column; gap: 4px; background: var(--white); border-radius: 20px; padding: 18px 22px; color: var(--plum); text-decoration: none; transition: transform 0.2s ease; }
+  .way:hover { transform: translateX(4px); color: var(--plum); }
+  .way b { font-size: 18px; word-break: break-word; }
+</style>

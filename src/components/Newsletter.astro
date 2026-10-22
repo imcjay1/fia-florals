@@ -1,0 +1,39 @@
+---
+import { forms } from '../data/site';
+---
+<section class="news" aria-labelledby="news-title">
+  <div class="copy">
+    <h2 id="news-title" class="disp">First to hear about new workshops.</h2>
+    <p class="body">Workshop dates, seasonal flowers and the odd photo of Hardy. No more than a couple of emails a month.</p>
+  </div>
+  <form
+    id="newsletter"
+    class="nform"
+    action={forms.endpoint}
+    method="POST"
+    data-enquiry
+    data-key={forms.web3formsKey || undefined}
+    data-success="You're on the list — thank you. Sophia x"
+  >
+    <input type="hidden" name="access_key" value={forms.web3formsKey} />
+    <input type="hidden" name="subject" value="Newsletter sign-up" />
+    <input type="hidden" name="from_name" value="Fia Florals website" />
+    <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
+    <label for="newsletter-email" class="visually-hidden">Email address</label>
+    <input id="newsletter-email" name="email" type="email" required placeholder="Your email address" autocomplete="email" class="input" />
+    <button type="submit" class="btn btn-cream">Sign me up</button>
+  </form>
+</section>
+
+<style>
+  .news { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 24px 48px; align-items: center; background: rgba(250, 243, 238, 0.06); border: 1px solid rgba(250, 243, 238, 0.14); border-radius: 28px; padding: clamp(24px, 4vw, 40px); }
+  .copy { display: flex; flex-direction: column; gap: 8px; }
+  h2 { font-size: clamp(28px, 3vw, 38px); line-height: 1.1; color: var(--petal); }
+  .nform { display: flex; flex-wrap: wrap; gap: 12px; }
+  .nform .input { flex: 1 1 220px; }
+  .nform :global(.form-status) { flex-basis: 100%; }
+</style>
+
+<script>
+  import '../scripts/forms';
+</script>
