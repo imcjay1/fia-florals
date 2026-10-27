@@ -1,5 +1,4 @@
 ---
-import { forms } from '../data/site';
 
 export type Field = {
   name: string;
@@ -34,15 +33,15 @@ const all = [...contact, ...fields];
 <form
   id={id}
   class:list={['form', { 'on-petal': white }]}
-  action={forms.endpoint}
+  name={id}
   method="POST"
+  data-netlify="true"
+  netlify-honeypot="botcheck"
   data-enquiry
-  data-key={forms.web3formsKey || undefined}
   data-success={success}
 >
-  <input type="hidden" name="access_key" value={forms.web3formsKey} />
+  <input type="hidden" name="form-name" value={id} />
   <input type="hidden" name="subject" value={subject} />
-  <input type="hidden" name="from_name" value="Fia Florals website" />
   <input type="checkbox" name="botcheck" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" />
   {all.map((f) => (
     <div class:list={['field', { full: f.full || f.type === 'textarea' }]}>

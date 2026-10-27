@@ -23,13 +23,8 @@ export const socials = [
   { name: 'Threads', handle: '@fiaflorals', url: 'https://www.threads.com/@fiaflorals' },
 ];
 
-// Enquiry and newsletter forms.
-// Create a free access key at https://web3forms.com using Sophia's email address and paste it below.
-// Until a key is added, every form still works: it opens the visitor's email app with their answers filled in.
-export const forms = {
-  web3formsKey: '',
-  endpoint: 'https://api.web3forms.com/submit',
-};
+// Enquiry and newsletter forms use Netlify Forms: submissions appear in Netlify → Forms
+// and are emailed to Sophia (set under Forms → Form notifications).
 
 // Google review link — paste the "Ask for reviews" link from Sophia's Google Business Profile once it is verified.
 // While empty, review buttons are hidden.
