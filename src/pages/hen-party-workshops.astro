@@ -1,0 +1,89 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import EnquiryForm from '../components/EnquiryForm.astro';
+import pumpkin from '../assets/photos/pumpkin-workshop.jpg';
+import wreath from '../assets/photos/wreath-workshop.jpg';
+
+const faqs = [
+  { q: 'Where can we have it?', a: "At your home, a holiday cottage or Airbnb, or a bar, restaurant or venue you've booked. Tell me where and I'll bring everything." },
+  { q: 'Do we need any experience?', a: "None at all. I'll guide you through every step, and everyone takes home something they made themselves." },
+  { q: 'What do we make?', a: 'A seasonal bouquet, a Christmas wreath, a pumpkin floral centrepiece, or something to match the bride-to-be. Tell me the theme and colours and I’ll suggest one.' },
+  { q: 'How do I book?', a: "Send the form with your date, where you'll be and how many of you there are. I'll come back to you with ideas and a price." },
+];
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+---
+<Base
+  title="Hen party flower workshops — Manchester & nationwide | Fia Florals"
+  description="A private floristry workshop for your hen do, at your house, holiday cottage or venue. Sophia brings the flowers and everything you need, and you all take home what you made."
+  image={pumpkin}
+  schema={[schema]}
+>
+  <section class="wrap page-hero">
+    <nav aria-label="Breadcrumb" class="breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/workshops">Workshops</a><span aria-hidden="true">/</span><span aria-current="page">Hen parties</span></nav>
+    <div class="split">
+      <div class="stack">
+        <span class="eyebrow">Hen party workshops</span>
+        <h1 class="disp h1" style="font-size:clamp(44px,5.6vw,80px)">A hen do she'll <em>actually</em> remember.</h1>
+        <p class="lead">A private flower workshop for the bride-to-be and her favourite people, at your house, your holiday cottage or your venue. I bring the flowers and everything you need. You bring the fizz.</p>
+        <div class="pills"><span class="pill sage">No experience needed</span><span class="pill coral">I bring everything</span><span class="pill mint">Manchester &amp; nationwide</span></div>
+        <div class="row"><a class="btn btn-primary" href="#enquire">Check my date</a></div>
+      </div>
+      <div class="arch" style="aspect-ratio:4/5;max-height:640px"><Image src={pumpkin} alt="Workshop guests behind the floral centrepieces they made" widths={[480, 720, 960]} sizes="(max-width:900px) 100vw, 520px" class="cover" loading="eager" /></div>
+    </div>
+  </section>
+
+  <section class="white section">
+    <div class="wrap stack" style="gap:28px">
+      <h2 class="disp h2">How it works</h2>
+      <ol class="steps">
+        <li style="background:var(--sage)"><span class="n disp">1</span><h3>Tell me the plan</h3><p>Your date, where you'll be and how many of you.</p></li>
+        <li style="background:var(--coral)"><span class="n disp">2</span><h3>Pick a theme</h3><p>Her favourite colours, a season, or something to match the wedding.</p></li>
+        <li style="background:var(--mint)"><span class="n disp">3</span><h3>I set everything up</h3><p>Flowers, tools and wrapping, ready when you arrive.</p></li>
+        <li style="background:var(--blush)"><span class="n disp">4</span><h3>You make, I guide</h3><p>Everyone leaves with something beautiful they made themselves.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="wrap section">
+    <div class="split" style="align-items:start">
+      <div class="stack">
+        <h2 class="disp h2">Good to <em>know.</em></h2>
+        <div class="faq">{faqs.map((f) => <details><summary>{f.q}</summary><p>{f.a}</p></details>)}</div>
+      </div>
+      <div class="rounded" style="aspect-ratio:4/3"><Image src={wreath} alt="Guests making Christmas wreaths at a Fia Florals workshop" widths={[480, 800]} sizes="(max-width:900px) 100vw, 560px" class="cover" /></div>
+    </div>
+  </section>
+
+  <section class="wrap section" id="enquire" style="padding-top:0">
+    <div class="split" style="align-items:start">
+      <div class="stack">
+        <h2 class="disp h2" style="font-size:clamp(32px,3.6vw,48px)">Plan the hen do.</h2>
+        <p class="lead">Send me the details and I'll come back to you with ideas and a price. Planning for a birthday or a work team instead? <a href="/workshops#private">See private workshops</a>.</p>
+      </div>
+      <EnquiryForm
+        id="hen-party"
+        subject="Hen party workshop enquiry"
+        white
+        submit="Send hen party enquiry"
+        fields={[
+          { name: 'date', label: 'Hen do date', type: 'date', required: true },
+          { name: 'group_size', label: 'How many of you', type: 'number', required: true },
+          { name: 'location', label: 'Where (town, house or venue)', required: true },
+          { name: 'theme', label: 'Colours or theme', placeholder: 'e.g. blush and white' },
+          { name: 'message', label: 'Anything else', type: 'textarea' },
+        ]}
+      />
+    </div>
+  </section>
+</Base>
+<style>
+  .steps { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 16px; }
+  .steps li { border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 8px; color: var(--plum); }
+  .steps .n { font-size: 40px; line-height: 1; }
+  .steps h3 { font-size: 20px; font-weight: 700; }
+</style>
