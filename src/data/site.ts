@@ -23,13 +23,8 @@ export const socials = [
   { name: 'Threads', handle: '@fiaflorals', url: 'https://www.threads.com/@fiaflorals' },
 ];
 
-// Enquiry and newsletter forms.
-// Create a free access key at https://web3forms.com using Sophia's email address and paste it below.
-// Until a key is added, every form still works: it opens the visitor's email app with their answers filled in.
-export const forms = {
-  web3formsKey: '',
-  endpoint: 'https://api.web3forms.com/submit',
-};
+// Enquiry and newsletter forms use Netlify Forms: submissions appear in Netlify → Forms
+// and are emailed to Sophia (set under Forms → Form notifications).
 
 // Google review link — paste the "Ask for reviews" link from Sophia's Google Business Profile once it is verified.
 // While empty, review buttons are hidden.
@@ -45,11 +40,27 @@ export const announcement = {
   until: '2026-11-19',
 };
 
-export const nav = [
+export type NavItem = { label: string; href: string; children?: { label: string; href: string }[] };
+
+export const nav: NavItem[] = [
   { label: 'Shop', href: '/shop' },
   { label: 'Weddings', href: '/weddings' },
-  { label: 'Workshops', href: '/workshops' },
   { label: 'Funeral flowers', href: '/funeral-flowers' },
-  { label: 'Subscriptions', href: '/shop/flower-subscription' },
+  { label: 'Workshops', href: '/workshops' },
+  {
+    label: 'Flowers for',
+    href: '/gallery',
+    children: [
+      { label: 'Events & business', href: '/events-business' },
+      { label: 'Baby showers', href: '/baby-showers' },
+      { label: 'Hen parties', href: '/hen-party-workshops' },
+      { label: 'Floral dog collars', href: '/floral-dog-collars' },
+      { label: 'Dried flowers', href: '/dried-flowers' },
+      { label: 'Unique florals', href: '/unique-florals' },
+      { label: 'Christmas & winter', href: '/christmas-wreaths' },
+      { label: 'Flower subscriptions', href: '/shop/flower-subscription' },
+    ],
+  },
+  { label: 'Gallery', href: '/gallery' },
   { label: 'About', href: '/about' },
 ];

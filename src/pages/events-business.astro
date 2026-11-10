@@ -3,13 +3,15 @@ import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import EnquiryForm from '../components/EnquiryForm.astro';
 import { businessQuote } from '../data/content';
-import orchid from '../assets/photos/orchid-vase.jpg';
-import wild from '../assets/photos/wild-bouquet.jpg';
+import Gallery from '../components/Gallery.astro';
+import { photos, pick } from '../data/gallery';
+const hero = photos.bizHatboxShowroom;
+const side = photos.bizOnyx;
 ---
 <Base
   title="Corporate & event flowers Manchester — office, showroom & event florist"
   description="Weekly flowers for showrooms, offices and receptions, plus event florals and client gifts, from Manchester florist Fia Florals."
-  image={orchid}
+  image={hero.src}
 >
   <section class="wrap page-hero">
     <nav aria-label="Breadcrumb" class="breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span aria-current="page">Events &amp; business</span></nav>
@@ -20,7 +22,7 @@ import wild from '../assets/photos/wild-bouquet.jpg';
         <p class="lead">Weekly arrangements for showrooms, offices, salons and receptions; florals for launches, parties and celebrations; and thank-you bouquets for your clients.</p>
         <div class="row"><a class="btn btn-primary" href="#enquire">Get a quote</a></div>
       </div>
-      <div class="arch" style="aspect-ratio:4/5;max-height:640px"><Image src={orchid} alt="Orchid, anthurium and eucalyptus arrangement in a green glass vase" widths={[480, 720, 960]} sizes="(max-width:900px) 100vw, 520px" class="cover" loading="eager" /></div>
+      <div class="arch" style="aspect-ratio:4/5;max-height:640px"><Image src={hero.src} alt={hero.alt} widths={[480, 720, 960]} sizes="(max-width:900px) 100vw, 520px" class="cover" loading="eager" /></div>
     </div>
   </section>
 
@@ -38,12 +40,26 @@ import wild from '../assets/photos/wild-bouquet.jpg';
     </div>
   </section>
 
+  <section class="wrap section">
+    <div class="stack" style="gap:28px">
+      <div class="section-head">
+        <div class="stack" style="gap:14px;max-width:620px">
+          <span class="eyebrow">Working with Stone Creative, Hyde</span>
+          <h2 class="disp h2" style="font-size:clamp(30px,3.4vw,46px)">Branded hatboxes and <em>weekly showroom flowers.</em></h2>
+        </div>
+        <p class="lead">Stone Creative make bespoke stone worktops. I make the flowers for their showroom each week, plus black hatbox arrangements carrying their logo, finished with gold ribbon and set on newly fitted worktops beside their branded tote. Their logo, their colours, my flowers.</p>
+      </div>
+      <Gallery photos={pick('bizShopfront', 'bizHatboxPair', 'bizWorktop', 'bizShowroomTable', 'bizHatboxWhite', 'bizRoseAnemone', 'bizVan', 'bizHatboxBrick')} />
+      <p class="body" style="max-width:720px">Want something similar for your business? Branded gift flowers for clients, flowers for your reception or showroom, or arrangements for a launch: tell me what you have in mind below.</p>
+    </div>
+  </section>
+
   <section class="wrap section" id="enquire">
     <div class="split" style="align-items:start">
       <div class="stack">
         <h2 class="disp h2" style="font-size:clamp(32px,3.6vw,48px)">Tell me what you need.</h2>
         <p class="lead">Share the space or the event, how often and your budget, and I'll come back with ideas and a quote.</p>
-        <div class="rounded" style="aspect-ratio:4/3"><Image src={wild} alt="Sophia holding a wild, garden-style bouquet" widths={[480, 800]} sizes="(max-width:900px) 100vw, 560px" class="cover" /></div>
+        <div class="rounded" style="aspect-ratio:4/3"><Image src={side.src} alt={side.alt} widths={[480, 800]} sizes="(max-width:900px) 100vw, 560px" class="cover" /></div>
       </div>
       <EnquiryForm
         id="business"

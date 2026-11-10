@@ -1,0 +1,67 @@
+---
+import Base from '../layouts/Base.astro';
+import Gallery from '../components/Gallery.astro';
+import { photos, pick, type PhotoId } from '../data/gallery';
+
+const sections: { id: string; title: string; text: string; href: string; go: string; ids: PhotoId[] }[] = [
+  { id: 'bouquets', title: 'Bouquets', text: 'Hand-tied to order and wrapped in layers of kraft, blush, olive and ivory paper, then set in a Fia Florals box or bag.', href: '/shop', go: 'Order a bouquet',
+    ids: ['bqSophiaTwo', 'bqDelphiniumBox', 'bqGardenBox', 'bqLooseDahlia', 'bqWhiteBox', 'bqAlliumsKraft', 'bqRedRosesCloseup', 'bqBrickBox', 'bqLilacSageBox', 'bqSophiaSeated', 'bqMauveWrap', 'bqAmaranthusGreen'] },
+  { id: 'vases', title: 'Vase arrangements', text: 'Arranged in the vase and ready to put down.', href: '/shop/vase-arrangement', go: 'Order a vase arrangement',
+    ids: ['bqSunflowerVase', 'bqOrchidVase', 'bqAmaranthusVase', 'bqStripedVase'] },
+  { id: 'weddings', title: 'Weddings', text: 'Bridal bouquets, posies, buttonholes and corsages, made as one set.', href: '/weddings', go: 'Check your date',
+    ids: ['weddingJewel', 'weddingCrate', 'weddingSophiaTshirt', 'weddingFlatlay', 'weddingPosy', 'weddingCorsage', 'weddingBridesmaids', 'weddingConfetti'] },
+  { id: 'unique', title: 'Unique florals', text: 'Watering cans, a straw hat, lemon-lined vases and willow arches.', href: '/unique-florals', go: 'Commission a piece',
+    ids: ['uniqueBlueCan', 'uniqueLemonVase', 'uniqueStrawHat', 'uniqueWillowArch', 'uniqueDoorSpray', 'uniqueCanGreen', 'uniqueBasket', 'uniqueMossDesign'] },
+  { id: 'winter', title: 'Winter & Christmas', text: 'Ilex berries, red roses, orange callas and fir, in hessian-collared wraps and hat boxes.', href: '/christmas-wreaths', go: 'Christmas at Fia Florals',
+    ids: ['winterBox', 'winterHatbox', 'winterCareCard', 'winterBurgundy', 'winterBag', 'wreathDoor'] },
+  { id: 'funerals', title: 'Funeral flowers', text: 'Sprays and tributes made with care.', href: '/funeral-flowers', go: 'Funeral flowers',
+    ids: ['funeralGardenOverhead', 'funeralWhiteSpray', 'funeralDahliaDetail', 'funeralGardenBrick'] },
+  { id: 'business', title: 'Events & business', text: 'Branded hatboxes and weekly showroom flowers for Stone Creative in Hyde.', href: '/events-business', go: 'Flowers for business',
+    ids: ['bizShopfront', 'bizHatboxShowroom', 'bizOnyx', 'bizHatboxPair', 'bizWorktop', 'bizRoseAnemone'] },
+  { id: 'workshops', title: 'Workshops', text: 'Pumpkin florals at Hatters Food Hall, Denton, and Christmas wreaths.', href: '/workshops', go: 'Book a workshop',
+    ids: ['pumpkinHall', 'pumpkinCentrepiece', 'pumpkinFlorals', 'pumpkinHardy'] },
+  { id: 'dried', title: 'Dried flowers & dog collars', text: 'Keepsake bouquets, corsages, buttonholes and floral collars.', href: '/dried-flowers', go: 'Dried flowers',
+    ids: ['driedBouquetHeld', 'driedCorsageButtonhole', 'dogCollarBox', 'driedBouquetPaving', 'dogCollarWalk', 'driedButtonhole'] },
+  { id: 'baby-showers', title: 'Baby showers', text: 'Jar posies for the tables, tied with ribbon.', href: '/baby-showers', go: 'Baby shower flowers',
+    ids: ['babyOverhead', 'babyPair', 'babyTrio'] },
+];
+---
+<Base
+  title="Gallery — bouquets, weddings, funerals & events | Fia Florals, Manchester"
+  description="See Sophia's work: bouquets and how they're wrapped, wedding flowers, unique arrangements, funeral tributes, business flowers, workshops and dried flowers."
+  image={photos.bqSophiaTwo.src}
+>
+  <section class="wrap page-hero">
+    <nav aria-label="Breadcrumb" class="breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span aria-current="page">Gallery</span></nav>
+    <div class="stack" style="max-width:760px">
+      <span class="eyebrow">Gallery</span>
+      <h1 class="disp h1" style="font-size:clamp(44px,5.6vw,84px)">No two the <em>same.</em></h1>
+      <p class="lead">Every piece here was designed from scratch and made by hand. Have a look around, and if something catches your eye, I can make something in that style for you.</p>
+    </div>
+    <nav aria-label="Gallery sections" class="jump">
+      {sections.map((s) => <a class="pill" href={`#${s.id}`}>{s.title}</a>)}
+    </nav>
+  </section>
+
+  {sections.map((s, i) => (
+    <section class:list={['section', i % 2 === 0 ? 'white' : '']} id={s.id}>
+      <div class="wrap stack" style="gap:28px">
+        <div class="section-head">
+          <h2 class="disp h2" style="font-size:clamp(30px,3.2vw,44px)">{s.title}</h2>
+          <div class="stack" style="gap:10px">
+            <p class="body">{s.text}</p>
+            <a class="link-arrow" href={s.href}>{s.go} →</a>
+          </div>
+        </div>
+        <Gallery photos={pick(...s.ids)} cols={s.ids.length <= 4 ? 2 : 3} />
+      </div>
+    </section>
+  ))}
+</Base>
+
+<style>
+  .jump { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+  .jump a { text-decoration: none; color: var(--plum); }
+  .jump a:hover { background: var(--rose); color: var(--white); }
+  section[id] { scroll-margin-top: 16px; }
+</style>

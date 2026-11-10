@@ -1,0 +1,68 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Gallery from '../components/Gallery.astro';
+import EnquiryForm from '../components/EnquiryForm.astro';
+import { photos, pick } from '../data/gallery';
+const hero = photos.dogCollarBox;
+const faqs = [
+  { q: 'What are the collars made from?', a: 'Dried flowers and grasses, such as pampas plumes, small daisies and seed pods, so they are light, they do not wilt, and you can keep the collar afterwards.' },
+  { q: 'Will it fit my dog?', a: "Tell me your dog's breed and measure around their neck where their collar sits. I'll make it to fit." },
+  { q: 'Can it match our wedding flowers?', a: 'Yes. Tell me your colours or send me your bouquet details and I will make the collar in the same palette.' },
+  { q: 'Is it only for weddings?', a: 'Not at all. If your dog is part of the celebration, whether that is an engagement, a birthday or a photoshoot, get in touch.' },
+];
+const schema = [{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) }];
+---
+<Base
+  title="Floral dog collars for weddings — Fia Florals, Manchester"
+  description="Dried-flower dog collars made to match your wedding flowers, by Manchester florist Fia Florals. Light, made to fit, and yours to keep."
+  image={hero.src}
+  schema={schema}
+>
+  <section class="wrap page-hero">
+    <nav aria-label="Breadcrumb" class="breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><a href="/weddings">Weddings</a><span aria-hidden="true">/</span><span aria-current="page">Floral dog collars</span></nav>
+    <div class="split">
+      <div class="stack">
+        <span class="eyebrow">Floral dog collars</span>
+        <h1 class="disp h1" style="font-size:clamp(44px,5.6vw,84px)">The best-dressed <em>guest.</em></h1>
+        <p class="lead">Your dog is part of the family, so they should be part of the flowers. I make floral collars in dried flowers to match your wedding, boxed and ready for the morning.</p>
+        <div class="row">
+          <a class="btn btn-primary" href="#enquire">Order a collar</a>
+          <a class="btn btn-ghost" href="/weddings">Wedding flowers</a>
+        </div>
+      </div>
+      <div class="rounded" style="aspect-ratio:3/2"><Image src={hero.src} alt={hero.alt} widths={[480, 720, 1080]} sizes="(max-width:900px) 100vw, 600px" class="cover" loading="eager" /></div>
+    </div>
+  </section>
+
+  <section class="white section">
+    <div class="wrap">
+      <Gallery photos={pick('dogCollarWalk', 'dogCollarFitting')} cols={2} />
+    </div>
+  </section>
+
+  <section class="wrap section">
+    <div class="split" style="align-items:start">
+      <div class="stack">
+        <h2 class="disp h2" style="font-size:clamp(32px,3.6vw,48px)">Good to know</h2>
+        <div class="faq">{faqs.map((f) => <details><summary>{f.q}</summary><p>{f.a}</p></details>)}</div>
+      </div>
+      <div id="enquire">
+        <EnquiryForm
+          id="dog-collar"
+          subject="Floral dog collar enquiry"
+          white
+          submit="Send enquiry"
+          fields={[
+            { name: 'dog_name', label: "Your dog's name" },
+            { name: 'breed', label: 'Breed or size', required: true },
+            { name: 'neck', label: 'Neck measurement', placeholder: 'e.g. 30 cm' },
+            { name: 'date', label: 'Date needed', type: 'date', required: true },
+            { name: 'colours', label: 'Colours or your wedding flowers', full: true },
+            { name: 'message', label: 'Anything else', type: 'textarea' },
+          ]}
+        />
+      </div>
+    </div>
+  </section>
+</Base>

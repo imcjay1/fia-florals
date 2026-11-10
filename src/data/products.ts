@@ -11,14 +11,10 @@
 // The amount actually charged is always the one set in Stripe.
 // ─────────────────────────────────────────────────────────────
 
-import handTied from '../assets/photos/hardy-bouquet.jpg';
-import twoBouquets from '../assets/photos/two-bouquets.jpg';
 import dahlia from '../assets/photos/sophia-dahlia.jpg';
-import wild from '../assets/photos/wild-bouquet.jpg';
 import orchid from '../assets/photos/orchid-vase.jpg';
-import peony from '../assets/photos/sophia-peony.jpg';
-import cream from '../assets/photos/sophia-bouquet-cream.jpg';
 import wreath from '../assets/photos/wreath-workshop.jpg';
+import { photos as g } from './gallery';
 
 export type Choice = { label: string; note?: string };
 export type Option = { key: string; price: string; stripe: string };
@@ -56,16 +52,21 @@ export const products: Product[] = [
     slug: 'hand-tied-bouquet',
     name: 'Hand-tied bouquet',
     eyebrow: "Florist's choice",
-    summary: "Florist's choice of the best seasonal stems, wrapped in kraft and blush.",
+    summary: "Florist's choice of the best seasonal stems, layered in paper and set in a Fia Florals box or bag.",
     description: [
-      "Tell me the occasion and the colours they love, and I'll design a bouquet just for them from the best seasonal stems of the week.",
-      'Every bouquet is hand-tied to order and wrapped in kraft and blush paper with a Fia Florals card.',
+      "Tell me the occasion and the colours they love, and I'll design a bouquet just for them from the best seasonal stems of the week: big hydrangea heads, dahlias, roses, sea holly, delphinium, whatever is looking its best.",
+      'Every bouquet is hand-tied to order and wrapped in layers of paper (kraft over blush, olive, lilac or ivory, depending on the flowers), then stood in a Fia Florals box or a gift bag with rope handles and finished with a round Fia Florals sticker.',
+      'It comes with a card for your message and a card on caring for your flowers.',
     ],
     images: [
-      { src: handTied, alt: 'Cream rose, peony and eucalyptus bouquet wrapped in kraft paper' },
-      { src: twoBouquets, alt: 'Two pink hydrangea bouquets in blush wrap with Fia Florals boxes' },
-      { src: dahlia, alt: 'Dahlia and purple hydrangea bouquet in clear wrap' },
-      { src: wild, alt: 'Wild, garden-style bouquet with sweet peas and eucalyptus' },
+      { src: g.bqSophiaTwo.src, alt: g.bqSophiaTwo.alt },
+      { src: g.bqDelphiniumBox.src, alt: g.bqDelphiniumBox.alt },
+      { src: g.bqBrickBox.src, alt: g.bqBrickBox.alt },
+      { src: g.bqWhiteBox.src, alt: g.bqWhiteBox.alt },
+      { src: g.bqLilacSageBox.src, alt: g.bqLilacSageBox.alt },
+      { src: g.bqRedRosesSageBox.src, alt: g.bqRedRosesSageBox.alt },
+      { src: g.winterBox.src, alt: g.winterBox.alt },
+      { src: g.bqWhiteCloseup.src, alt: g.bqWhiteCloseup.alt },
     ],
     kind: 'one-off',
     primary: { legend: 'Size', choices: sizes },
@@ -88,12 +89,15 @@ export const products: Product[] = [
     eyebrow: 'Ready to display',
     summary: 'Arrives ready to display — no trimming, no hunting for a vase.',
     description: [
-      'A statement arrangement designed in a vase, so it goes straight onto the table, the mantelpiece or the reception desk.',
+      'A statement arrangement designed in a vase, so it goes straight onto the table, the mantelpiece or the reception desk: sunflowers and peonies in blue glass, yellow orchids in a pink glass bottle, or trailing amaranthus in a tall black vase.',
       'Perfect for gifts, offices and anyone who would rather not arrange flowers themselves.',
     ],
     images: [
+      { src: g.bqSunflowerVase.src, alt: g.bqSunflowerVase.alt },
+      { src: g.bqOrchidVase.src, alt: g.bqOrchidVase.alt },
+      { src: g.bqAmaranthusVase.src, alt: g.bqAmaranthusVase.alt },
+      { src: g.bqStripedVase.src, alt: g.bqStripedVase.alt },
       { src: orchid, alt: 'Pink orchid, anthurium and eucalyptus arrangement in a green glass vase' },
-      { src: cream, alt: 'Large bouquet of calla lilies, hydrangea and amaranthus' },
     ],
     kind: 'one-off',
     primary: { legend: 'Size', choices: sizes },
@@ -120,7 +124,9 @@ export const products: Product[] = [
       'Choose a hand-tied bouquet, or a vase arrangement with the vase swapped at every delivery.',
     ],
     images: [
-      { src: peony, alt: 'Sophia holding a peony, gerbera and sea lavender bouquet' },
+      { src: g.bqSophiaSeated.src, alt: g.bqSophiaSeated.alt },
+      { src: g.bqHydrangeaWhite.src, alt: g.bqHydrangeaWhite.alt },
+      { src: g.bqGardenBox.src, alt: g.bqGardenBox.alt },
       { src: dahlia, alt: 'Dahlia and purple hydrangea subscription bouquet' },
     ],
     kind: 'subscription',
