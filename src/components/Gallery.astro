@@ -1,0 +1,46 @@
+---
+// Photo grid with optional captions. Pass photos from src/data/gallery.ts.
+import { Image } from 'astro:assets';
+import type { Photo } from '../data/gallery';
+
+interface Props {
+  photos: Photo[];
+  /** 'masonry' keeps each photo's own shape; 'grid' crops to tidy tiles. */
+  layout?: 'masonry' | 'grid';
+  cols?: 2 | 3 | 4;
+  captions?: boolean;
+}
+const { photos, layout = 'masonry', cols = 3, captions = true } = Astro.props;
+---
+<div class:list={['gallery', layout, `c${cols}`]}>
+  {photos.map((p) => (
+    <figure class="g-item">
+      <div class="g-media">
+        <Image
+          src={p.src}
+          alt={p.alt}
+          widths={[360, 560, 820]}
+          sizes={cols === 2 ? '(max-width: 700px) 100vw, 600px' : cols === 4 ? '(max-width: 700px) 50vw, 300px' : '(max-width: 700px) 100vw, 400px'}
+          style={p.position ? `object-position:${p.position}` : undefined}
+        />
+      </div>
+      {captions && p.caption && <figcaption>{p.caption}</figcaption>}
+    </figure>
+  ))}
+</div>
+
+<style>
+  .gallery { --gap: 18px; }
+  .gallery.masonry { columns: var(--cols, 3) 260px; column-gap: var(--gap); }
+  .gallery.masonry.c2 { --cols: 2; columns: 2 300px; }
+  .gallery.masonry.c4 { --cols: 4; columns: 4 220px; }
+  .gallery.masonry .g-item { break-inside: avoid; margin: 0 0 var(--gap); }
+  .gallery.masonry .g-media :global(img) { width: 100%; height: auto; display: block; border-radius: 22px; }
+  .gallery.grid { display: grid; gap: var(--gap); grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr)); }
+  .gallery.grid.c2 { grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); }
+  .gallery.grid.c4 { grid-template-columns: repeat(auto-fill, minmax(min(100%, 210px), 1fr)); }
+  .gallery.grid .g-item { margin: 0; }
+  .gallery.grid .g-media { aspect-ratio: 4 / 5; border-radius: 22px; overflow: hidden; background: var(--blush); }
+  .gallery.grid .g-media :global(img) { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .g-item figcaption { font-size: 14.5px; line-height: 1.5; color: var(--text); padding: 10px 4px 0; }
+</style>

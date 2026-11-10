@@ -2,16 +2,17 @@
 import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import EnquiryForm from '../components/EnquiryForm.astro';
+import Gallery from '../components/Gallery.astro';
+import { photos, pick } from '../data/gallery';
 import { bookedWeddingDates } from '../data/content';
-import buttonholes from '../assets/photos/wedding-buttonholes.jpg';
-import peony from '../assets/photos/sophia-peony.jpg';
-import cream from '../assets/photos/sophia-bouquet-cream.jpg';
-import wild from '../assets/photos/wild-bouquet.jpg';
+const hero = photos.weddingJewel;
 
 const faq = [
   { q: 'What wedding flowers do you make?', a: 'Bridal and bridesmaid bouquets, buttonholes and corsages, table flowers, ceremony pieces and anything else your day needs.' },
   { q: 'How do I book?', a: 'Check your date above, then send the enquiry form. I come back to you to talk through your ideas, colours and venue before anything is confirmed.' },
   { q: 'Which months do you take weddings?', a: 'All year round — spring, summer, autumn and winter weddings are all welcome.' },
+  { q: 'Can you make dried flower pieces?', a: 'Yes. Dried corsages and buttonholes in bunny tails, pampas, nigella pods and statice are lovely keepsakes, and they can sit alongside fresh bouquets.' },
+  { q: 'Can our dog be part of it?', a: 'Yes. I make floral dog collars to match your wedding flowers, boxed and ready for the morning.' },
 ];
 const schema = [{
   '@context': 'https://schema.org', '@type': 'FAQPage',
@@ -21,7 +22,7 @@ const schema = [{
 <Base
   title="Wedding florist Manchester — bridal bouquets & wedding flowers"
   description="Wedding flowers designed around you by Manchester florist Fia Florals: bridal bouquets, buttonholes, table and ceremony flowers. Check your date online."
-  image={buttonholes}
+  image={hero.src}
   schema={schema}
 >
   <section class="wrap page-hero">
@@ -41,25 +42,40 @@ const schema = [{
           <p class="result" role="status" aria-live="polite" hidden></p>
         </form>
       </div>
-      <div class="arch-down" style="aspect-ratio:4/4.6"><Image src={buttonholes} alt="Wedding buttonholes of white roses, wax flower and eucalyptus, labelled for the groom's party" widths={[480, 720, 960]} sizes="(max-width: 900px) 100vw, 560px" class="cover" loading="eager" /></div>
+      <div class="arch-down" style="aspect-ratio:4/4.8"><Image src={hero.src} alt={hero.alt} widths={[480, 720, 960]} sizes="(max-width: 900px) 100vw, 560px" class="cover" loading="eager" /></div>
     </div>
   </section>
 
   <section class="white section">
-    <div class="wrap">
+    <div class="wrap stack" style="gap:32px">
       <div class="section-head">
         <h2 class="disp h2" style="max-width:640px">Something a little bit <em>different.</em></h2>
-        <p class="lead">No two of my bouquets are ever the same — yours will be designed for you, not picked from a catalogue.</p>
+        <p class="lead">No two of my weddings are ever the same. Yours will be designed around you, not picked from a catalogue.</p>
       </div>
-      <div class="grid-3">
-        <div class="rounded tall"><Image src={peony} alt="Peony, gerbera and sea lavender bouquet" widths={[400, 640]} sizes="(max-width:700px) 100vw, 400px" class="cover" /></div>
-        <div class="rounded tall"><Image src={cream} alt="Calla lily, hydrangea and amaranthus bouquet" widths={[400, 640]} sizes="(max-width:700px) 100vw, 400px" class="cover" /></div>
-        <div class="rounded tall"><Image src={wild} alt="Wild garden-style bouquet with sweet peas" widths={[400, 640]} sizes="(max-width:700px) 100vw, 400px" class="cover" /></div>
+      <div class="tiles">
+        <div class="tile" style="background:var(--sage)"><h3>Made as one set</h3><p>Bridal bouquet, bridesmaid posies, buttonholes and corsages designed together, so every piece matches.</p></div>
+        <div class="tile" style="background:var(--coral)"><h3>Labelled by hand</h3><p>Buttonholes arrive in a Fia Florals crate with a handwritten tag for each person, so nobody gets mixed up on the morning.</p></div>
+        <div class="tile" style="background:var(--mint)"><h3>Ribbon left long</h3><p>Velvet and satin ribbon trailing from the stems, in a colour picked out of your flowers.</p></div>
+        <div class="tile" style="background:var(--blush)"><h3>Soft or jewel-toned</h3><p>White roses, eucalyptus and wax flower for a natural look, or deep red and blush roses with antique hydrangea.</p></div>
       </div>
+      <Gallery photos={pick('weddingCrate', 'weddingSophiaTshirt', 'weddingFlatlay', 'weddingPosy', 'weddingBouquetRibbon', 'weddingCorsage', 'weddingButtonholesOverhead', 'weddingMirror')} />
     </div>
   </section>
 
   <section class="wrap section">
+    <div class="extras">
+      <a class="extra tint" href="/dried-flowers">
+        <div class="rounded" style="aspect-ratio:1"><Image src={photos.driedCorsageButtonhole.src} alt={photos.driedCorsageButtonhole.alt} widths={[300, 560]} sizes="(max-width:700px) 40vw, 220px" class="cover" /></div>
+        <div class="stack" style="gap:8px"><span class="eyebrow">Keepsakes</span><h3 class="disp h3">Dried corsages and buttonholes</h3><p class="body">Bunny tails, pampas and nigella pods that won't wilt, so you can keep them.</p><span class="link-arrow">Dried flowers →</span></div>
+      </a>
+      <a class="extra tint" href="/floral-dog-collars">
+        <div class="rounded" style="aspect-ratio:1"><Image src={photos.dogCollarWalk.src} alt={photos.dogCollarWalk.alt} widths={[300, 560]} sizes="(max-width:700px) 40vw, 220px" class="cover" /></div>
+        <div class="stack" style="gap:8px"><span class="eyebrow">Four-legged guests</span><h3 class="disp h3">Floral dog collars</h3><p class="body">A collar to match your flowers, so your dog is part of the day too.</p><span class="link-arrow">Dog collars →</span></div>
+      </a>
+    </div>
+  </section>
+
+  <section class="wrap" style="padding-bottom:var(--section)">
     <ol class="steps">
       <li style="background:var(--sage)"><span class="n disp">1</span><h3>Check your date</h3><p>Use the date checker, then send me your details.</p></li>
       <li style="background:var(--coral)"><span class="n disp">2</span><h3>Talk it through</h3><p>Your colours, venue, style and the pieces you need.</p></li>
@@ -104,7 +120,9 @@ const schema = [{
   .result.ok { background: #e4ecd9; color: #2f4f2c; }
   .result.no { background: #f6dcd6; color: #7a2a1f; }
   .result :global(a) { color: inherit; }
-  .tall { aspect-ratio: 4 / 5; }
+  .extras { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); gap: 20px; }
+  .extra { border-radius: 28px; padding: 22px; display: grid; grid-template-columns: minmax(120px, 200px) 1fr; gap: 22px; align-items: center; text-decoration: none; color: var(--plum); }
+  @media (max-width: 480px) { .extra { grid-template-columns: 1fr; } }
   .enq { border-radius: 32px; padding: clamp(24px, 4vw, 48px); display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr)); gap: 40px; align-items: start; }
 </style>
 

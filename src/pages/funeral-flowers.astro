@@ -3,13 +3,15 @@ import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import EnquiryForm from '../components/EnquiryForm.astro';
 import { business } from '../data/site';
-import meadow from '../assets/photos/funeral-meadow.jpg';
-import cream from '../assets/photos/hardy-bouquet.jpg';
+import Gallery from '../components/Gallery.astro';
+import { photos, pick } from '../data/gallery';
+const hero = photos.funeralGardenOverhead;
+const sympathy = photos.bqWhiteBox;
 ---
 <Base
   title="Funeral flowers Manchester — tributes, wreaths & sympathy flowers"
   description="Funeral flowers made with care by Fia Florals, Manchester: sheaves, wreaths, posies, personal tributes and sympathy bouquets. Call Sophia on 07786 671051."
-  image={meadow}
+  image={hero.src}
 >
   <section class="dark">
     <div class="wrap split hero">
@@ -23,7 +25,7 @@ import cream from '../assets/photos/hardy-bouquet.jpg';
           <a class="btn btn-outline-light" href="#enquire">Send an enquiry</a>
         </div>
       </div>
-      <div class="media"><Image src={meadow} alt="Meadow-style funeral tribute with pink dahlia, blue thistle and agapanthus" widths={[480, 800, 1100]} sizes="(max-width:900px) 100vw, 600px" class="cover" loading="eager" /></div>
+      <div class="media"><Image src={hero.src} alt={hero.alt} widths={[480, 800, 1100]} sizes="(max-width:900px) 100vw, 600px" class="cover" loading="eager" /></div>
     </div>
   </section>
 
@@ -60,9 +62,19 @@ import cream from '../assets/photos/hardy-bouquet.jpg';
     </div>
   </section>
 
-  <section class="wrap" style="padding-bottom:var(--section)">
+  <section class="white section">
+    <div class="wrap stack" style="gap:28px">
+      <div class="section-head">
+        <h2 class="disp h2" style="font-size:clamp(30px,3.4vw,46px)">From classic white to a <em>whole garden.</em></h2>
+        <p class="lead">Some families want calm whites and greens. Others want every colour the person loved. Long, low sprays are made with fern and foliage trailing at each end, so they sit beautifully on the coffin.</p>
+      </div>
+      <Gallery photos={pick('funeralWhiteSpray', 'funeralDahliaDetail', 'funeralGardenBrick', 'funeralGardenSpray')} cols={2} />
+    </div>
+  </section>
+
+  <section class="wrap section">
     <div class="sym tint">
-      <div class="rounded" style="aspect-ratio:1"><Image src={cream} alt="Soft white and cream bouquet of roses and peonies" widths={[300, 500]} sizes="240px" class="cover" /></div>
+      <div class="rounded" style="aspect-ratio:1"><Image src={sympathy.src} alt={sympathy.alt} widths={[300, 500]} sizes="240px" class="cover" /></div>
       <div class="stack" style="gap:12px">
         <h2 class="disp" style="font-size:clamp(26px,2.8vw,34px)">Sending sympathy flowers?</h2>
         <p class="body">A hand-tied bouquet in soft whites and greens can be ordered online, with your card message and delivery to their door.</p>

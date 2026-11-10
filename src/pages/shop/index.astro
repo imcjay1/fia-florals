@@ -2,6 +2,8 @@
 import Base from '../../layouts/Base.astro';
 import ProductCard from '../../components/ProductCard.astro';
 import { products } from '../../data/products';
+import Gallery from '../../components/Gallery.astro';
+import { pick } from '../../data/gallery';
 ---
 <Base
   title="Shop flowers online — bouquets, vases & subscriptions | Manchester"
@@ -28,7 +30,25 @@ import { products } from '../../data/products';
         <a href="/weddings" class="btn btn-ghost btn-sm">Weddings</a>
         <a href="/funeral-flowers" class="btn btn-ghost btn-sm">Funeral flowers</a>
         <a href="/events-business" class="btn btn-ghost btn-sm">Events &amp; business</a>
+        <a href="/unique-florals" class="btn btn-ghost btn-sm">Unique florals</a>
       </div>
+    </div>
+  </section>
+
+  <section class="white section">
+    <div class="wrap stack" style="gap:32px">
+      <div class="section-head">
+        <h2 class="disp h2" style="max-width:600px">How your bouquet <em>arrives.</em></h2>
+        <p class="lead">No plain cellophane here. Every bouquet is wrapped in layers of paper picked to suit the flowers, then stood in a box or bag so it's ready to give.</p>
+      </div>
+      <div class="tiles">
+        <div class="tile" style="background:var(--blush)"><h3>Layered paper</h3><p>Kraft over blush, olive, lilac, mauve or ivory, or hot pink for a big red rose bouquet.</p></div>
+        <div class="tile" style="background:var(--sage)"><h3>Box or bag</h3><p>A Fia Florals box in dusty pink, sage or kraft, or a gift bag with rope handles, so it stands up on its own.</p></div>
+        <div class="tile" style="background:var(--coral)"><h3>Finished by hand</h3><p>A round Fia Florals sticker and, in winter, a hessian collar tied with twine.</p></div>
+        <div class="tile" style="background:var(--mint)"><h3>Cards included</h3><p>A card for your message, and a card on caring for your flowers so they last.</p></div>
+      </div>
+      <Gallery photos={pick('bqDelphiniumBox', 'bqWhiteBox', 'bqLilacSageBox', 'bqRedRosesCloseup', 'bqHydrangeaBag', 'bqAlliumsKraft', 'bqMauveWrap', 'winterCareCard', 'bqAmaranthusGreen')} />
+      <div class="row"><a class="btn btn-primary" href="/shop/hand-tied-bouquet">Order a bouquet</a><a class="btn btn-ghost" href="/christmas-wreaths#winter">Winter bouquets</a><a class="btn btn-ghost" href="/gallery">Full gallery</a></div>
     </div>
   </section>
 </Base>

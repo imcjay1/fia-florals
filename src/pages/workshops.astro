@@ -3,6 +3,8 @@ import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import WorkshopCard from '../components/WorkshopCard.astro';
 import EnquiryForm from '../components/EnquiryForm.astro';
+import Gallery from '../components/Gallery.astro';
+import { pick } from '../data/gallery';
 import { workshops, pastWorkshops, privateWorkshopPhoto } from '../data/content';
 import { socials } from '../data/site';
 import wreath from '../assets/photos/wreath-workshop.jpg';
@@ -55,6 +57,11 @@ const schema = workshops.map((w) => ({
         {pastWorkshops.map((p) => (
           <div class="past"><h3 class="disp" style="font-size:24px">{p.name}</h3><p class="small">{p.where} · {p.when}</p></div>
         ))}
+      </div>
+      <div class="stack" style="gap:20px;margin-top:48px">
+        <h3 class="disp h3">Pumpkin Floral Workshop, Hatters Food Hall</h3>
+        <p class="body" style="max-width:680px">Long tables set with pumpkins on hessian, everything laid out and ready, and a room full of autumn centrepieces by the end of the night: roses, autumn leaves and curly willow in a real pumpkin.</p>
+        <Gallery photos={pick('pumpkinHall', 'pumpkinTable', 'pumpkinCentrepiece', 'pumpkinFinished', 'pumpkinBags', 'pumpkinFinished2', 'pumpkinFlorals', 'pumpkinHardy')} layout="grid" cols={4} />
       </div>
     </div>
   </section>

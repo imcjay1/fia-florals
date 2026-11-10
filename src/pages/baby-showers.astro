@@ -1,0 +1,66 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Gallery from '../components/Gallery.astro';
+import EnquiryForm from '../components/EnquiryForm.astro';
+import { photos, pick } from '../data/gallery';
+const hero = photos.babyPair;
+---
+<Base
+  title="Baby shower flowers Manchester — table jars & bouquets | Fia Florals"
+  description="Baby shower flowers by Manchester florist Fia Florals: jar posies for the tables tied with ribbon, and bouquets for the mum-to-be, in your colours."
+  image={hero.src}
+>
+  <section class="wrap page-hero">
+    <nav aria-label="Breadcrumb" class="breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span aria-current="page">Baby showers</span></nav>
+    <div class="split">
+      <div class="stack">
+        <span class="eyebrow">Baby shower flowers</span>
+        <h1 class="disp h1" style="font-size:clamp(44px,5.6vw,84px)">Little jars, <em>big</em> welcome.</h1>
+        <p class="lead">Glass jars of fresh flowers for every table, tied with ribbon in your colours. Soft blues, pinks, or neutrals if you're keeping it a surprise.</p>
+        <p class="lead">I can make one jar or a whole table's worth, plus a bouquet for the mum-to-be.</p>
+        <div class="row">
+          <a class="btn btn-primary" href="#enquire">Plan your flowers</a>
+          <a class="btn btn-ghost" href="/shop/hand-tied-bouquet">Bouquet for the mum-to-be</a>
+        </div>
+      </div>
+      <div class="arch hero-media"><Image src={hero.src} alt={hero.alt} widths={[480, 720, 960]} sizes="(max-width:900px) 100vw, 520px" class="cover" loading="eager" /></div>
+    </div>
+  </section>
+
+  <section class="white section">
+    <div class="wrap stack" style="gap:32px">
+      <ol class="steps">
+        <li style="background:var(--mint)"><span class="n disp">1</span><h3>Your date and venue</h3><p>Tell me when the shower is and where it's being held.</p></li>
+        <li style="background:var(--coral)"><span class="n disp">2</span><h3>Your colours</h3><p>Blue, pink, lemon, sage, or all white and green.</p></li>
+        <li style="background:var(--sage)"><span class="n disp">3</span><h3>How many jars</h3><p>One for each table, a cluster for the gift table, or both.</p></li>
+        <li style="background:var(--blush)"><span class="n disp">4</span><h3>Ready on the day</h3><p>Made fresh, ribbons tied, ready to set out.</p></li>
+      </ol>
+      <Gallery photos={pick('babyOverhead', 'babyJars', 'babyTrio')} layout="grid" />
+    </div>
+  </section>
+
+  <section class="wrap section" id="enquire">
+    <div class="enq-panel tint">
+      <div class="stack" style="gap:14px">
+        <span class="eyebrow">Baby shower enquiry</span>
+        <h2 class="disp h2" style="font-size:clamp(32px,3.4vw,48px)">Tell me about the shower.</h2>
+        <p class="body">I'll come back to you with ideas and a price.</p>
+      </div>
+      <EnquiryForm
+        id="baby-shower"
+        subject="Baby shower flowers enquiry"
+        white
+        submit="Send enquiry"
+        fields={[
+          { name: 'date', label: 'Date of the shower', type: 'date', required: true },
+          { name: 'location', label: 'Where (town or venue)' },
+          { name: 'jars', label: 'Roughly how many jars', type: 'number' },
+          { name: 'colours', label: 'Colours', placeholder: 'e.g. soft blue and white' },
+          { name: 'bouquet', label: 'A bouquet for the mum-to-be?', type: 'select', options: ['Not sure yet', 'Yes please', 'No thanks'] },
+          { name: 'message', label: 'Anything else', type: 'textarea' },
+        ]}
+      />
+    </div>
+  </section>
+</Base>

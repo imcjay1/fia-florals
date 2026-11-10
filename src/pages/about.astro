@@ -3,10 +3,13 @@ import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Reviews from '../components/Reviews.astro';
 import { socials } from '../data/site';
-import peony from '../assets/photos/sophia-peony.jpg';
+import Gallery from '../components/Gallery.astro';
+import { photos, pick } from '../data/gallery';
+const peony = photos.sophiaPeonyPortrait.src;
+const market = photos.marketStall;
 import dahlia from '../assets/photos/sophia-dahlia.jpg';
 import hardy from '../assets/photos/hardy-bouquet.jpg';
-import two from '../assets/photos/two-bouquets.jpg';
+const twoPhoto = photos.bqDelphiniumBox;
 const ig = socials.find((s) => s.name === 'Instagram')!;
 ---
 <Base
@@ -17,7 +20,7 @@ const ig = socials.find((s) => s.name === 'Instagram')!;
   <section class="wrap page-hero">
     <nav aria-label="Breadcrumb" class="breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span aria-current="page">About</span></nav>
     <div class="split">
-      <div class="arch" style="aspect-ratio:4/5;max-height:680px"><Image src={peony} alt="Sophia, owner of Fia Florals, smiling over a peony bouquet" widths={[480, 720, 960]} sizes="(max-width:900px) 100vw, 520px" class="cover" style="object-position:50% 15%" loading="eager" /></div>
+      <div class="arch" style="aspect-ratio:4/5;max-height:680px"><Image src={peony} alt={photos.sophiaPeonyPortrait.alt} widths={[480, 720, 960]} sizes="(max-width:900px) 100vw, 520px" class="cover" style="object-position:50% 20%" loading="eager" /></div>
       <div class="stack">
         <span class="eyebrow">Hello, I'm Sophia</span>
         <h1 class="disp h1" style="font-size:clamp(44px,5.6vw,80px)">I like to create flowers that are <em>unique.</em></h1>
@@ -29,6 +32,30 @@ const ig = socials.find((s) => s.name === 'Instagram')!;
   </section>
 
   <section class="white section">
+    <div class="wrap split">
+      <div class="rounded" style="aspect-ratio:922/806"><Image src={market.src} alt={market.alt} widths={[480, 800]} sizes="(max-width:900px) 100vw, 560px" class="cover" /></div>
+      <div class="stack">
+        <span class="eyebrow">Where it started</span>
+        <h2 class="disp h2">It started with a <em>market stall.</em></h2>
+        <p class="lead">Fia Florals began at markets, with a pegboard of dried-flower hoop wreaths, kraft tags and big glass bottles of pampas grass.</p>
+        <p class="lead">Now it's bouquets, weddings, funerals, workshops and flowers for local businesses. I still love dried flowers, and I still make every piece by hand.</p>
+        <a class="link-arrow" href="/dried-flowers">Dried flowers →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap section">
+    <div class="stack" style="gap:28px">
+      <div class="section-head">
+        <h2 class="disp h2" style="font-size:clamp(30px,3.4vw,46px)">The things I love <em>making.</em></h2>
+        <p class="lead">Watering cans full of meadow flowers, roses in a straw hat, a whole pumpkin as a vase. If it's a little bit different, I'm in.</p>
+      </div>
+      <Gallery photos={pick('uniqueBlueCan', 'weddingSophiaTshirt', 'bqSophiaSeated', 'pumpkinHardy', 'uniqueLemonVase', 'bqSophiaTwo')} layout="grid" />
+      <a class="link-arrow" href="/gallery">See the full gallery →</a>
+    </div>
+  </section>
+
+  <section class="tint section">
     <div class="wrap split">
       <div class="stack">
         <span class="eyebrow">The team</span>
@@ -45,7 +72,7 @@ const ig = socials.find((s) => s.name === 'Instagram')!;
 
   <section class="wrap section">
     <div class="split">
-      <div class="rounded" style="aspect-ratio:16/10"><Image src={two} alt="Two pink hydrangea bouquets in Fia Florals wrapping" widths={[480, 800, 1100]} sizes="(max-width:900px) 100vw, 600px" class="cover" /></div>
+      <div class="rounded" style="aspect-ratio:4/5;max-height:620px"><Image src={twoPhoto.src} alt={twoPhoto.alt} widths={[480, 800, 1100]} sizes="(max-width:900px) 100vw, 600px" class="cover" /></div>
       <div class="stack">
         <h2 class="disp h2" style="font-size:clamp(32px,3.6vw,48px)">What I do</h2>
         <ul class="what">
@@ -55,6 +82,10 @@ const ig = socials.find((s) => s.name === 'Instagram')!;
           <li><a href="/events-business">Event and business flowers</a></li>
           <li><a href="/shop/flower-subscription">Flower subscriptions</a></li>
           <li><a href="/workshops">Floristry workshops, public and private</a></li>
+          <li><a href="/unique-florals">Unique arrangements</a></li>
+          <li><a href="/dried-flowers">Dried flowers</a></li>
+          <li><a href="/baby-showers">Baby shower flowers</a></li>
+          <li><a href="/floral-dog-collars">Floral dog collars</a></li>
         </ul>
       </div>
     </div>

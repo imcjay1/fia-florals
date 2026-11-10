@@ -1,0 +1,75 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Gallery from '../components/Gallery.astro';
+import EnquiryForm from '../components/EnquiryForm.astro';
+import { photos, pick } from '../data/gallery';
+const hero = photos.driedBouquetHeld;
+---
+<Base
+  title="Dried flower bouquets, corsages & buttonholes — Fia Florals, Manchester"
+  description="Dried flower bouquets, wedding corsages and buttonholes, hoop wreaths and floral dog collars made by Manchester florist Fia Florals. Flowers that don't wilt."
+  image={hero.src}
+>
+  <section class="wrap page-hero">
+    <nav aria-label="Breadcrumb" class="breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span aria-current="page">Dried flowers</span></nav>
+    <div class="split">
+      <div class="stack">
+        <span class="eyebrow">Dried flowers</span>
+        <h1 class="disp h1" style="font-size:clamp(44px,5.6vw,84px)">Flowers you get to <em>keep.</em></h1>
+        <p class="lead">Fluffy bunny tails, pampas plumes, nigella seed pods, statice, preserved roses and dried eucalyptus, in dusky pinks, lilacs, plums and soft neutrals.</p>
+        <p class="lead">Dried flowers don't need water and they don't wilt, so they're perfect for keepsakes, wedding pieces you want to hold on to, and anyone who wants flowers that last.</p>
+        <div class="row">
+          <a class="btn btn-primary" href="#enquire">Order dried flowers</a>
+          <a class="btn btn-ghost" href="/weddings">Wedding flowers</a>
+        </div>
+      </div>
+      <div class="arch hero-media"><Image src={hero.src} alt={hero.alt} widths={[480, 720, 960]} sizes="(max-width:900px) 100vw, 520px" class="cover" loading="eager" /></div>
+    </div>
+  </section>
+
+  <section class="white section">
+    <div class="wrap split" style="align-items:start">
+      <div class="stack">
+        <h2 class="disp h2" style="font-size:clamp(32px,3.6vw,48px)">What I make in <em>dried flowers</em></h2>
+        <p class="lead">Every piece is made to order in the colours you choose.</p>
+        <div class="rounded" style="aspect-ratio:4/5"><Image src={photos.driedCorsageButtonhole.src} alt={photos.driedCorsageButtonhole.alt} widths={[400, 640, 900]} sizes="(max-width:900px) 100vw, 520px" class="cover" /></div>
+      </div>
+      <ul class="detail-list">
+        <li><b>Dried bouquets</b><span>Preserved roses, bunny tails, seed heads and grasses, hand-tied and ready to stand in a vase with no water.</span></li>
+        <li><b>Wedding corsages</b><span>Wrist corsages on ribbon in bunny tails, pampas, nigella pods and statice, matched to your colours.</span></li>
+        <li><b>Buttonholes</b><span>Small, light and made to last the whole day, and long after it.</span></li>
+        <li><b>Hoop wreaths</b><span>Dried flowers on a simple gold hoop, to hang on a wall or a door all year round. This is how Fia Florals started, on my market stall.</span></li>
+        <li><b>Floral dog collars</b><span>Pampas, daisies and seed pods so your dog can be part of the day too. <a href="/floral-dog-collars">See dog collars →</a></span></li>
+        <li><b>Pampas and stems</b><span>Pampas grass and dried eucalyptus to style in your own bottle or vase.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="wrap section">
+    <Gallery photos={pick('driedBouquetPaving', 'driedWristCorsage', 'marketStall', 'driedButtonhole', 'dogCollarBox')} />
+  </section>
+
+  <section class="wrap" id="enquire" style="padding-bottom:var(--section)">
+    <div class="enq-panel tint">
+      <div class="stack" style="gap:14px">
+        <span class="eyebrow">Order dried flowers</span>
+        <h2 class="disp h2" style="font-size:clamp(32px,3.4vw,48px)">Tell me what you need.</h2>
+        <p class="body">Let me know what you'd like, how many, your colours and when you need them. For weddings, it helps to know your other flowers too, so everything matches.</p>
+      </div>
+      <EnquiryForm
+        id="dried"
+        subject="Dried flowers enquiry"
+        white
+        submit="Send enquiry"
+        fields={[
+          { name: 'item', label: "I'd like", type: 'select', options: ['A dried bouquet', 'Corsages and buttonholes', 'A hoop wreath', 'A floral dog collar', 'Something else'] },
+          { name: 'date', label: 'Date needed', type: 'date' },
+          { name: 'quantity', label: 'How many', type: 'number' },
+          { name: 'colours', label: 'Colours', placeholder: 'e.g. lilac and cream' },
+          { name: 'message', label: 'Anything else', type: 'textarea' },
+        ]}
+      />
+    </div>
+  </section>
+</Base>

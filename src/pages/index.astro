@@ -8,26 +8,27 @@ import EnquiryForm from '../components/EnquiryForm.astro';
 import { products } from '../data/products';
 import { workshops, businessQuote, privateWorkshopPhoto } from '../data/content';
 import { business } from '../data/site';
+import { photos as g } from '../data/gallery';
 
 import heroMain from '../assets/photos/sophia-bouquet-cream.jpg';
-import heroSmall from '../assets/photos/orchid-vase.jpg';
-import imgBouquets from '../assets/photos/two-bouquets.jpg';
-import imgWeddings from '../assets/photos/wedding-buttonholes.jpg';
+const heroSmall = g.uniqueBlueCan.src;
+const imgBouquets = g.bqDelphiniumBox.src;
+const imgWeddings = g.weddingJewel.src;
 import imgWorkshops from '../assets/photos/pumpkin-workshop.jpg';
-import imgFunerals from '../assets/photos/funeral-meadow.jpg';
-import imgSubs from '../assets/photos/sophia-dahlia.jpg';
-import imgBusiness from '../assets/photos/wild-bouquet.jpg';
+const imgFunerals = g.funeralGardenOverhead.src;
+const imgSubs = g.bqSophiaSeated.src;
+const imgBusiness = g.bizShopfront.src;
 import imgSophia from '../assets/photos/sophia-peony.jpg';
 import imgHardy from '../assets/photos/hardy-bouquet.jpg';
 
 const shop = ['hand-tied-bouquet', 'vase-arrangement', 'flower-subscription'].map((s) => products.find((p) => p.slug === s)!);
 const services = [
-  { title: 'Bouquets', go: 'Shop', href: '/shop', img: imgBouquets, alt: 'Two pink hydrangea bouquets wrapped in blush and kraft paper', text: 'Hand-tied for birthdays, baby showers, thank-yous and just because.' },
-  { title: 'Weddings', go: 'Check dates', href: '/weddings', img: imgWeddings, alt: 'Tray of white rose buttonholes labelled for the groomsmen', text: 'Bridal bouquets, buttonholes and venue flowers. Diary open all year round.' },
+  { title: 'Bouquets', go: 'Shop', href: '/shop', img: imgBouquets, alt: g.bqDelphiniumBox.alt, text: 'Hand-tied for birthdays, thank-yous and just because, layered in paper and boxed.' },
+  { title: 'Weddings', go: 'Check dates', href: '/weddings', img: imgWeddings, alt: g.weddingJewel.alt, text: 'Bridal bouquets, buttonholes and venue flowers. Diary open all year round.' },
   { title: 'Workshops', go: 'Book', href: '/workshops', img: imgWorkshops, alt: 'Workshop guests with the pumpkin floral centrepieces they made', text: 'Make it yourself, drink in hand. Public dates or your own private party.' },
-  { title: 'Funeral flowers', go: 'Enquire', href: '/funeral-flowers', img: imgFunerals, alt: 'Meadow-style funeral tribute with dahlias and blue thistle', text: "Thoughtful tributes that reflect the person you're remembering." },
-  { title: 'Subscriptions', go: 'Start', href: '/shop/flower-subscription', img: imgSubs, alt: 'Sophia with a dahlia and purple hydrangea bouquet', text: 'Seasonal flowers on repeat — weekly, fortnightly or monthly.' },
-  { title: 'Events & business', go: 'Enquire', href: '/events-business', img: imgBusiness, alt: 'Sophia holding a wild, garden-style bouquet against a brick wall', text: 'Showroom, office and event flowers, refreshed as often as you like.' },
+  { title: 'Funeral flowers', go: 'Enquire', href: '/funeral-flowers', img: imgFunerals, alt: g.funeralGardenOverhead.alt, text: "Thoughtful tributes that reflect the person you're remembering." },
+  { title: 'Subscriptions', go: 'Start', href: '/shop/flower-subscription', img: imgSubs, alt: g.bqSophiaSeated.alt, text: 'Seasonal flowers on repeat — weekly, fortnightly or monthly.' },
+  { title: 'Events & business', go: 'Enquire', href: '/events-business', img: imgBusiness, alt: g.bizShopfront.alt, text: 'Showroom flowers, branded hatboxes and event pieces for local businesses.' },
 ];
 ---
 <Base
@@ -57,7 +58,7 @@ const services = [
         <Image src={heroMain} alt="Sophia holding a large hand-tied bouquet of pink calla lilies, hydrangea and amaranthus" widths={[480, 720, 960]} sizes="(max-width: 900px) 80vw, 480px" class="cover" loading="eager" fetchpriority="high" />
       </div>
       <div class="round small">
-        <Image src={heroSmall} alt="Pink orchid and anthurium arrangement in a green glass vase" widths={[300, 480]} sizes="220px" class="cover" loading="eager" />
+        <Image src={heroSmall} alt={g.uniqueBlueCan.alt} widths={[300, 480]} sizes="220px" class="cover" loading="eager" />
       </div>
       <div class="badge">
         <svg class="ring" role="img" aria-label="Handmade in Manchester" width="150" height="150" viewBox="0 0 150 150"><defs><path id="ring-path" d="M75,75 m-56,0 a56,56 0 1,1 112,0 a56,56 0 1,1 -112,0" /></defs><text font-family="Figtree Variable, sans-serif" font-size="12.5" font-weight="600" letter-spacing="3.2" fill="#3B2124"><textPath href="#ring-path">HANDMADE IN MANCHESTER · FLOWERS &amp; MORE ·</textPath></text></svg>
@@ -87,6 +88,30 @@ const services = [
           <div class="media rounded"><Image src={s.img} alt={s.alt} widths={[400, 640, 900]} sizes="(max-width: 700px) 100vw, 400px" class="cover" /></div>
           <div class="top"><h3 class="disp h3">{s.title}</h3><span class="go">{s.go} →</span></div>
           <p class="body">{s.text}</p>
+        </a>
+      ))}
+    </div>
+  </section>
+
+
+  <!-- More -->
+  <section class="wrap" style="padding-bottom:var(--section)">
+    <div class="section-head">
+      <h2 class="disp h2" style="font-size:clamp(30px,3.4vw,46px);max-width:640px">And a few things <em>a little bit different.</em></h2>
+      <a class="link-arrow" href="/gallery">See the full gallery →</a>
+    </div>
+    <div class="more">
+      {[
+        { t: 'Unique florals', h: '/unique-florals', p: g.uniqueLemonVase },
+        { t: 'Dried flowers', h: '/dried-flowers', p: g.driedBouquetHeld },
+        { t: 'Baby showers', h: '/baby-showers', p: g.babyPair },
+        { t: 'Floral dog collars', h: '/floral-dog-collars', p: g.dogCollarWalk },
+        { t: 'Christmas & winter', h: '/christmas-wreaths', p: g.winterHatbox },
+        { t: 'Hen parties', h: '/hen-party-workshops', p: g.pumpkinCentrepiece },
+      ].map((m) => (
+        <a class="mcard" href={m.h}>
+          <div class="mmedia"><Image src={m.p.src} alt={m.p.alt} widths={[300, 500]} sizes="(max-width:700px) 50vw, 200px" class="cover" /></div>
+          <span class="disp">{m.t}</span>
         </a>
       ))}
     </div>
@@ -141,7 +166,7 @@ const services = [
   <!-- Weddings -->
   <section class="white section" id="weddings">
     <div class="wrap split">
-      <div class="arch-down" style="aspect-ratio:4/4.6"><Image src={imgWeddings} alt="Wedding buttonholes of white roses, wax flower and eucalyptus labelled for the groom's party" widths={[480, 720, 960]} sizes="(max-width: 900px) 100vw, 560px" class="cover" /></div>
+      <div class="arch-down" style="aspect-ratio:4/4.6"><Image src={g.weddingCrate.src} alt={g.weddingCrate.alt} widths={[480, 720, 960]} sizes="(max-width: 900px) 100vw, 560px" class="cover" /></div>
       <div class="stack">
         <span class="eyebrow">Wedding flowers</span>
         <h2 class="disp h2">Your day, in flowers that <em>feel like you.</em></h2>
@@ -169,7 +194,7 @@ const services = [
           <a class="btn btn-outline-light" href="/funeral-flowers#enquire">Send an enquiry</a>
         </div>
       </div>
-      <div class="fmedia"><Image src={imgFunerals} alt="Close detail of a meadow-style funeral tribute with pink dahlia and blue thistle" widths={[480, 800, 1100]} sizes="(max-width: 900px) 100vw, 600px" class="cover" /></div>
+      <div class="fmedia"><Image src={g.funeralDahliaDetail.src} alt={g.funeralDahliaDetail.alt} widths={[480, 800, 1100]} sizes="(max-width: 900px) 100vw, 600px" class="cover" /></div>
     </div>
   </section>
 
@@ -261,6 +286,13 @@ const services = [
   .hero-art .small { position: absolute; left: 0; bottom: 0; width: 42%; aspect-ratio: 1; border: 8px solid var(--petal); box-shadow: 0 24px 60px rgba(59, 33, 36, 0.18); }
   .hero-art .badge { position: absolute; left: 4%; top: 30px; }
   @media (max-width: 560px) { .hero-art .badge { width: 110px; height: 110px; } .hero-art .badge .ring { width: 110px; height: 110px; } }
+  .more { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 170px), 1fr)); gap: 16px; }
+  .mcard { display: flex; flex-direction: column; gap: 10px; text-decoration: none; color: var(--plum); }
+  .mcard .mmedia { aspect-ratio: 4 / 5; border-radius: 999px 999px 22px 22px; overflow: hidden; background: var(--blush); }
+  .mcard :global(img) { transition: transform 0.4s ease; }
+  .mcard:hover :global(img) { transform: scale(1.04); }
+  .mcard span { font-size: 20px; text-align: center; }
+  .mcard:hover span { color: var(--brick); }
   .secure { margin-top: 32px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; align-items: center; font-size: 14px; color: var(--text); }
   .sticky { position: sticky; top: 24px; }
   @media (max-width: 900px) { .sticky { position: static; } }

@@ -3,11 +3,13 @@ import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import WorkshopCard from '../components/WorkshopCard.astro';
 import { workshops } from '../data/content';
+import Gallery from '../components/Gallery.astro';
+import { photos, pick } from '../data/gallery';
 import wreath from '../assets/photos/wreath-workshop.jpg';
 const festive = workshops.filter((w) => /wreath|christmas|festive/i.test(w.name));
 ---
 <Base
-  title="Christmas wreath making workshops — Fia Florals"
+  title="Christmas wreaths, workshops & winter bouquets — Fia Florals, Manchester"
   description="Make your own fresh Christmas wreath with Fia Florals. Festive wreath workshops with a drink on arrival and all materials included, plus private wreath workshops for groups."
   image={wreath}
 >
@@ -24,6 +26,31 @@ const festive = workshops.filter((w) => /wreath|christmas|festive/i.test(w.name)
         </div>
       </div>
       <div class="arch" style="aspect-ratio:4/4.4"><Image src={wreath} alt="Two friends holding the fresh Christmas wreaths they made at a Fia Florals workshop" widths={[480, 720, 960]} sizes="(max-width:900px) 100vw, 560px" class="cover" loading="eager" /></div>
+    </div>
+  </section>
+  <section class="white section">
+    <div class="wrap split" style="align-items:center">
+      <div class="arch" style="aspect-ratio:3/4;max-height:620px"><Image src={photos.wreathDoor.src} alt={photos.wreathDoor.alt} widths={[480, 720, 960]} sizes="(max-width:900px) 100vw, 520px" class="cover" /></div>
+      <div class="stack">
+        <span class="eyebrow">Fresh wreaths</span>
+        <h2 class="disp h2" style="font-size:clamp(32px,3.6vw,50px)">Made to hang on <em>your</em> door.</h2>
+        <p class="lead">Mixed conifer and silver eucalyptus, pine cones, dried orange slices, cinnamon sticks and red berries, finished with a long natural raffia bow.</p>
+        <p class="body">Make your own at a workshop, or ask me to make one for you.</p>
+        <div class="row"><a class="btn btn-primary" href="/workshops">Workshop dates</a><a class="btn btn-ghost" href="/enquiries">Order a wreath</a></div>
+      </div>
+    </div>
+  </section>
+  <section class="wrap section" id="winter">
+    <div class="stack" style="gap:28px">
+      <div class="section-head">
+        <div class="stack" style="gap:14px;max-width:620px">
+          <span class="eyebrow">Winter bouquets</span>
+          <h2 class="disp h2" style="font-size:clamp(32px,3.6vw,50px)">Berries, roses and <em>a bit of sparkle.</em></h2>
+        </div>
+        <p class="lead">Red ilex berries, red and coral roses, orange calla lilies, peach carnations, skimmia and eucalyptus. Each one is wrapped in kraft and tissue with a hessian collar tied in twine, then set in a blush box or a kraft rope-handled bag. For Christmas, a black hat box with fir and gold snowflakes.</p>
+      </div>
+      <Gallery photos={pick('winterBox', 'winterHatbox', 'winterCareCard', 'winterBurgundy', 'winterBag', 'winterRange')} />
+      <div class="row"><a class="btn btn-primary" href="/shop/hand-tied-bouquet">Order a winter bouquet</a></div>
     </div>
   </section>
   {festive.length > 0 && (

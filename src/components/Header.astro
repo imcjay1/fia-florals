@@ -17,7 +17,16 @@ const isCurrent = (href: string) => (href === '/' ? path === '/' : path === href
       <Image src={logo} alt="Fia Florals — flowers & more" width={200} loading="eager" />
     </a>
     <nav aria-label="Main" class="desktop-nav">
-      {nav.map((item) => (
+      {nav.map((item) => item.children ? (
+        <div class="dd">
+          <button type="button" class="dd-btn" aria-expanded="false" aria-haspopup="true">{item.label}
+            <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6" /></svg>
+          </button>
+          <div class="dd-menu">
+            {item.children.map((c) => <a href={c.href} aria-current={isCurrent(c.href) ? 'page' : undefined}>{c.label}</a>)}
+          </div>
+        </div>
+      ) : (
         <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>{item.label}</a>
       ))}
     </nav>
@@ -37,9 +46,13 @@ const isCurrent = (href: string) => (href === '/' ? path === '/' : path === href
     </div>
     <nav aria-label="Mobile" class="wrap mm-nav">
       <a href="/" class="disp">Home</a>
-      {nav.map((item) => <a href={item.href} class="disp">{item.label}</a>)}
-      <a href="/events-business" class="disp">Events &amp; business</a>
-      <a href="/hen-party-workshops" class="disp">Hen parties</a>
+      {nav.filter((item) => !item.children).map((item) => <a href={item.href} class="disp">{item.label}</a>)}
+      {nav.filter((item) => item.children).map((item) => (
+        <>
+          <span class="mm-label">{item.label}</span>
+          <div class="mm-sub">{item.children!.map((c) => <a href={c.href}>{c.label}</a>)}</div>
+        </>
+      ))}
       <a href="/enquiries" class="disp">Enquiries</a>
       <a href="/contact" class="disp">Contact</a>
       <a href="/shop" class="btn btn-primary">Order flowers</a>
@@ -57,6 +70,16 @@ const isCurrent = (href: string) => (href === '/' ? path === '/' : path === href
   .desktop-nav { display: flex; gap: 4px 26px; align-items: center; flex-wrap: wrap; }
   .desktop-nav a { color: var(--plum); text-decoration: none; font-weight: 500; font-size: 15px; padding: 12px 2px; border-bottom: 2px solid transparent; }
   .desktop-nav a:hover, .desktop-nav a[aria-current='page'] { color: var(--brick); border-bottom-color: currentColor; }
+  .dd { position: relative; }
+  .dd-btn { display: inline-flex; align-items: center; gap: 4px; background: none; border: 0; border-bottom: 2px solid transparent; font: inherit; font-weight: 500; font-size: 15px; color: var(--plum); padding: 12px 2px; cursor: pointer; }
+  .dd-btn:hover, .dd:focus-within .dd-btn { color: var(--brick); }
+  .dd-menu { position: absolute; left: -18px; top: 100%; min-width: 230px; background: var(--white); border-radius: 18px; box-shadow: 0 22px 50px rgba(59, 33, 36, 0.16); padding: 10px; display: none; flex-direction: column; z-index: 30; }
+  .dd:hover .dd-menu, .dd:focus-within .dd-menu, .dd.open .dd-menu { display: flex; }
+  .desktop-nav .dd-menu a { padding: 10px 12px; border-radius: 10px; border-bottom: 0; font-size: 15px; }
+  .desktop-nav .dd-menu a:hover, .desktop-nav .dd-menu a[aria-current='page'] { background: var(--petal); color: var(--brick); }
+  .mm-label { margin-top: 18px; font-size: 13px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--brick); }
+  .mm-sub { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 16px; padding-bottom: 8px; border-bottom: 1px solid #e6d2cc; }
+  .mm-sub a { color: var(--plum); text-decoration: none; font-weight: 500; font-size: 17px; padding: 8px 0; }
   .actions { display: flex; align-items: center; gap: 10px; }
   .menu-btn, .close-btn { display: none; width: 48px; height: 48px; border-radius: 50%; border: 0; background: var(--blush); color: var(--plum); cursor: pointer; align-items: center; justify-content: center; }
   .mobile-menu { position: fixed; inset: 0; background: var(--petal); z-index: 100; overflow-y: auto; }
@@ -77,6 +100,12 @@ const isCurrent = (href: string) => (href === '/' ? path === '/' : path === href
 </style>
 
 <script>
+  document.querySelectorAll<HTMLElement>('.dd').forEach((dd) => {
+    const btn = dd.querySelector<HTMLButtonElement>('.dd-btn')!;
+    btn.addEventListener('click', () => { const open = !dd.classList.contains('open'); dd.classList.toggle('open', open); btn.setAttribute('aria-expanded', String(open)); });
+    document.addEventListener('click', (e) => { if (!dd.contains(e.target as Node)) { dd.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); } });
+    dd.addEventListener('keydown', (e) => { if (e.key === 'Escape') { dd.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); btn.focus(); } });
+  });
   const menu = document.getElementById('mobile-menu')!;
   const open = document.querySelector<HTMLButtonElement>('.menu-btn')!;
   const close = menu.querySelector<HTMLButtonElement>('.close-btn')!;

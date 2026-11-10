@@ -1,0 +1,72 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Gallery from '../components/Gallery.astro';
+import EnquiryForm from '../components/EnquiryForm.astro';
+import { photos, pick } from '../data/gallery';
+const hero = photos.uniqueWateringCanSophia;
+---
+<Base
+  title="Unique flower arrangements Manchester — bespoke florals by Fia Florals"
+  description="Flowers in watering cans, straw hats, pumpkins and lemon-lined vases. Unique, bespoke flower arrangements designed from scratch by Manchester florist Fia Florals."
+  image={hero.src}
+>
+  <section class="wrap page-hero">
+    <nav aria-label="Breadcrumb" class="breadcrumb"><a href="/">Home</a><span aria-hidden="true">/</span><span aria-current="page">Unique florals</span></nav>
+    <div class="split">
+      <div class="stack">
+        <span class="eyebrow">Unique florals</span>
+        <h1 class="disp h1" style="font-size:clamp(44px,5.6vw,84px)">Something a little bit <em>different.</em></h1>
+        <p class="lead">At Fia Florals I don't do boring, or basic. Some of my favourite pieces don't sit in a vase at all: a meadow pouring out of an old watering can, roses tucked into a straw hat, a whole pumpkin hollowed out and filled with flowers.</p>
+        <p class="lead">If you want flowers people will stop and talk about, this is where to start.</p>
+        <div class="row">
+          <a class="btn btn-primary" href="#enquire">Tell me your idea</a>
+          <a class="btn btn-ghost" href="/gallery">See the gallery</a>
+        </div>
+      </div>
+      <div class="arch hero-media"><Image src={hero.src} alt={hero.alt} widths={[480, 720, 960]} sizes="(max-width:900px) 100vw, 520px" class="cover" style="object-position:50% 30%" loading="eager" /></div>
+    </div>
+  </section>
+
+  <section class="white section">
+    <div class="wrap stack" style="gap:32px">
+      <div class="section-head">
+        <h2 class="disp h2" style="max-width:620px">What makes them <em>unique.</em></h2>
+        <p class="lead">Every piece is designed from scratch, so no two are ever the same. These are the things I come back to.</p>
+      </div>
+      <div class="tiles">
+        <div class="tile" style="background:var(--sage)"><h3>Unexpected containers</h3><p>Vintage enamel and galvanised watering cans, a woven straw hat, slatted whitewashed baskets, zinc troughs and real pumpkins.</p></div>
+        <div class="tile" style="background:var(--coral)"><h3>Shapes with branches</h3><p>Pussy willow bent and tied into arches, asymmetric designs on moss, and long, low troughs with stems stepped in a line.</p></div>
+        <div class="tile" style="background:var(--mint)"><h3>Bold colour</h3><p>Blue hydrangea with lemons and yellow tulips, cerise peonies with purple alliums, red roses with golden chrysanthemums.</p></div>
+        <div class="tile" style="background:var(--blush)"><h3>Loose and natural</h3><p>Garden flowers like ammi, larkspur, peonies, sweet William and bunny-tail grass, arranged so they look freshly picked.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap section">
+    <Gallery photos={pick('uniqueBlueCan', 'uniqueLemonVase', 'uniqueStrawHat', 'uniqueWillowArch', 'uniqueCanGreen', 'uniqueDoorSpray', 'uniqueBasket', 'uniqueMossDesign', 'pumpkinFlorals', 'uniqueTroughMantel', 'uniqueTulipTrough', 'uniqueHydrangeaPot', 'uniqueCanBrick')} />
+  </section>
+
+  <section class="wrap" id="enquire" style="padding-bottom:var(--section)">
+    <div class="enq-panel tint">
+      <div class="stack" style="gap:14px">
+        <span class="eyebrow">Commission a piece</span>
+        <h2 class="disp h2" style="font-size:clamp(32px,3.4vw,48px)">Got an idea? <em>Tell me.</em></h2>
+        <p class="body">A container that means something, a colour scheme you love, a space you want to fill. Send me the details, add a photo link if you have one, and I'll come back with ideas.</p>
+        <div class="see-also"><a class="pill" href="/shop">Shop bouquets</a><a class="pill" href="/events-business">Events &amp; business</a><a class="pill" href="/dried-flowers">Dried flowers</a></div>
+      </div>
+      <EnquiryForm
+        id="unique"
+        subject="Unique florals enquiry"
+        white
+        submit="Send my idea"
+        fields={[
+          { name: 'occasion', label: 'What is it for?', placeholder: 'Birthday, a gift, my home, an event…' },
+          { name: 'date', label: 'Date needed', type: 'date' },
+          { name: 'budget', label: 'Budget', placeholder: '£' },
+          { name: 'message', label: 'Your idea', type: 'textarea', required: true },
+        ]}
+      />
+    </div>
+  </section>
+</Base>
